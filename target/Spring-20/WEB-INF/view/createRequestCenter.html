@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="button" name="createRC" id="createRC">
+    <input type="hidden" id="rcID" th:value="${r_id}"/>
+    <div id="RC"></div>
+</body>
+  <script th:inline="javascript">
+    $(document).on('click', '#createRC', function () {
+      $.ajax({
+        url: "/createRequestCenter",
+        data: {reqCenter: document.getElementById('rcID').value},
+        type: "POST",
+        success: function (data) {
+          data = JSON.parse(data);
+          console.log("your data: ", data);
+          let rc_id = data;
+          let c_array = [[${c_array}]];
+
+      //     $("#RC").append(
+      //             "<div id='" + rc_id + "' class=\"form-inner\" style=\"display: block;\">\n" +
+      //             "            <p>\n" +
+      //             "                <select name='centersList'"
+      //                                   for( let i = 0;; i < c_array.length; i++){
+      //                                   }
+      //
+      //             "                <input type=\"text\" id='Q_type_" + rc_id + "' onchange=\"changeQuestionType(" + rc_id + ")\" placeholder=\"Question type\"/>" +
+      //             "            </p>\n" +
+      //             "            <p>\n" +
+      //             "                <input type=\"button\" onclick='createAnswer(" + rc_id + ")' value=\"Create Answer\"/>\n" +
+      //             "                <input type=\"button\" onclick=\"deleteQuestion(" + rc_id + ")\" value=\"Delete Question\"/>\n" +
+      //             "            </p>\n" +
+      //             "            <p id='answer_" + rc_id + "'>\n" +
+      //             "            </p>\n" +
+      //             "        </div>"
+      //     )
+         }
+       })
+    })
+
+    function changeCenter(){
+
+    }
+
+    function deleteCenter(){
+
+    }
+
+  </script>
+</html>

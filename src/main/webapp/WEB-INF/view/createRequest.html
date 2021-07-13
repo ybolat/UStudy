@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/createRequest" method="POST">
+    <input type="text" name="examName" placeholder="Exam Name"><br>
+    <div>
+        <select name="choose_types" id="CT">
+            <option value="none" hidden="">Choose one</option>
+            <option value="1">Exam Type</option>
+            <option value="2">Area</option>
+            <option value="3">Free Choice</option>
+        </select>
+    </div>
+    <div id="ET">
+        <select name="exam_types">
+            <option value="none" hidden="">Choose Exam</option>
+            <option th:each="type:${typeList}" th:value="${type.getExam_type_name()}"
+                    th:text="${type.getExam_type_name()}"></option>
+        </select>
+    </div>
+    <div id="AN">
+        <select name="area_name">
+            <option value="none" hidden="">Choose Area</option>
+            <option th:each="area:${areaList}" th:value="${area.getArea_name()}"
+                    th:text="${area.getArea_name()}"></option>
+        </select>
+    </div>
+    <input id="FC" type="hidden" name="free_choice" value="none">
+    <input type="submit" value="Create"/>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+</form>
+</body>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script>
+    $(document).ready(function() {
+        $("#ET").hide();
+        $("#AN").hide();
+        $('#FC').val('none');
+        $('#CT').on("change",function() {
+            const val = $(this).val();
+            if (val === "1" ) {
+                $("#ET").show();
+                $('#ET').val('none');
+                $("#AN").hide();
+                $('#AN').val('none');
+                $('#FC').val('none');
+            } else if (val === "2" ) {
+                $("#ET").hide();
+                $('#ET').val('none');
+                $("#AN").show();
+                $('#AN').val('none');
+                $('#FC').val('none');
+            } else if (val === "3" ) {
+                $("#ET").hide();
+                $('#ET').val('none');
+                $("#AN").hide();
+                $('#AN').val('none');
+                $('#FC').val('free_choice');
+            }
+        });
+    });
+
+
+</script>
+<script src="js/index.js"></script>
+</html>

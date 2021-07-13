@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:each="res:${resList}">
+        <div th:text="${res.getUser().getLogin()}"></div>
+        <div th:text="${res.getUser().getEmail()}"></div>
+        <div th:text="${res.getExam_name()}"></div>
+        <div th:text="${res.getExam_types().getExam_type_name()}"></div>
+        <form action="/accept" method="post">
+            <input type="hidden" th:value="${res.getRequest_id()}" name="id">
+            <input type="submit" value="accept">
+        </form>
+        <form action="/decline" method="post">
+            <input type="hidden" th:value="${res.getRequest_id()}" name="id">
+            <input type="submit" value="decline">
+        </form>
+        <a th:href="'/editRequest/'+${res.getRequest_id()}">show</a>
+    </div>
+</body>
+</html>

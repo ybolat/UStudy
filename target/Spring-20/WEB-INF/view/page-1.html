@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select All</title>
+</head>
+<body>
+<a href="/logout">Log Out</a><br>
+<a href="/home">Home</a>
+<div th:each="card:${cardList}" style="margin: auto; width: 30%; border: 3px solid green; padding: 10px;">
+    <table style="border-collapse: collapse; border: 1px solid black; width: 100%" id=${card.getId()}/>
+        <tr><td><span th:text="${card.getId()}"></span></td></tr>
+        <tr><td><span th:text="${card.getExpired_date()}"></span></td></tr>
+        <tr><td><span th:text="${card.getName()}"></span></td></tr>
+        <tr><td><span th:text="${card.getCvv()}"></span></td></tr>
+        <tr><td><span th:text="${card.getKzt()}"></span></td></tr>
+        <tr>
+            <td>
+                <form th:method="Get" th:action="@{/card/comunalka/{id}(id=${card.getId()})}" th:object="${card}">
+                    <input type="submit" value="pay comunalka">
+                    <input style="width: 100%" type="hidden" name="id" th:value="${card.getId()}" />&nbsp;&nbsp;
+                    <input style="width: 80%" type="hidden" name="cvv" th:value="${card.getCvv()}" />
+                </form>
+                <form th:method="Get" th:action="@{/card/transfer/{id}(id=${card.getId()})}" th:object="${card}">
+                    <input type="submit" value="transfer to another card">
+                    <input style="width: 100%" type="hidden" name="id" th:value="${card.getId()}" />&nbsp;&nbsp;
+                    <input style="width: 80%" type="hidden" name="cvv" th:value="${card.getCvv()}" />
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

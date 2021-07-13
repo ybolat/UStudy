@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="'/editRequestCenters/'+${reqCen.getRc()}" method="post">
+        <input type="text" th:value="${reqCen.getDates().getStart_date()}" name="start"><br>
+        <input type="text" th:value="${reqCen.getDates().getFinish_date()}" name="finish"><br>
+        <input type="number" th:value="${reqCen.getNum_of_places()}" name="nop"><br>
+        <select name="center">
+            <option th:each="center:${centerList}" th:value="${center.getRegion()}"></option>
+        </select>
+        <input type="submit" value="change">
+    </form>
+</body>
+</html>
