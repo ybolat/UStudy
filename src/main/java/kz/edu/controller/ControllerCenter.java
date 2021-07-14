@@ -37,11 +37,32 @@ public class ControllerCenter {
     @GetMapping("/center/{id}")
     public String getCurrentCenter(Model model, @PathVariable("id") int id){
         model.addAttribute("center", centersDAO.find_center_by_id(id));
+        model.addAttribute("areas", areaDAO.getAllAreas());
         return "center";
     }
 
+    @PostMapping("/center/{id}")
+    public String ChangeCurrentCenter(@PathVariable("id") int id,
+                                    @RequestParam("region") String region,
+                                    @RequestParam("address") String address,
+                                    @RequestParam("phone") String phone,
+                                    @RequestParam("email") String email,
+                                    @RequestParam("area") String area,
+                                    @RequestParam("nop") int nop){
+        Centers centers = centersDAO.find_center_by_id(id);
+        centers.setAddress(address);
+        centers.setEmail(email);
+        centers.setRegion(region);
+        centers.setNum_of_places(nop);
+        centers.setPhone_number(phone);
+        centers.setArea(areaDAO.find_area_by_name(area));
+        centersDAO.EditCenter(centers);
+        return "redirect:/centers";
+    }
+
     @GetMapping("/createCenter")
-    public String createCenter(){
+    public String createCenter(Model model){
+        model.addAttribute("areas", areaDAO.getAllAreas());
         return "createCenter";
     }
 
@@ -60,33 +81,33 @@ public class ControllerCenter {
         centers.setPhone_number(phone_number);
         centers.setRegion(region);
         centersDAO.createCenter(centers);
-        return "redirect:/home";
+        return "redirect:/centers";
     }
 
-    @GetMapping("/editCenter/{id}")
-    public String editCenter(Model model, @PathVariable("id") int id){
-        model.addAttribute("center", centersDAO.find_center_by_id(id));
-        return "editCenter";
-    }
-
-    @PostMapping("/editCenter/{id}")
-    public String editCenter(@PathVariable("id") int id,
-                            @RequestParam("region") String region,
-                            @RequestParam("address") String address,
-                            @RequestParam("phone_number") String phone_number,
-                            @RequestParam("num_of_places") int num_of_places,
-                            @RequestParam("email") String email,
-                            @RequestParam("areaName") String areaName){
-        Centers centers = centersDAO.find_center_by_id(id);
-        centers.setAddress(address);
-        centers.setArea(areaDAO.find_area_by_name(areaName));
-        centers.setEmail(email);
-        centers.setNum_of_places(num_of_places);
-        centers.setPhone_number(phone_number);
-        centers.setRegion(region);
-        centersDAO.EditCenter(centers);
-        return "redirect:/home";
-    }
+//    @GetMapping("/editCenter/{id}")
+//    public String editCenter(Model model, @PathVariable("id") int id){
+//        model.addAttribute("center", centersDAO.find_center_by_id(id));
+//        return "editCenter";
+//    }
+//
+//    @PostMapping("/editCenter/{id}")
+//    public String editCenter(@PathVariable("id") int id,
+//                            @RequestParam("region") String region,
+//                            @RequestParam("address") String address,
+//                            @RequestParam("phone_number") String phone_number,
+//                            @RequestParam("num_of_places") int num_of_places,
+//                            @RequestParam("email") String email,
+//                            @RequestParam("areaName") String areaName){
+//        Centers centers = centersDAO.find_center_by_id(id);
+//        centers.setAddress(address);
+//        centers.setArea(areaDAO.find_area_by_name(areaName));
+//        centers.setEmail(email);
+//        centers.setNum_of_places(num_of_places);
+//        centers.setPhone_number(phone_number);
+//        centers.setRegion(region);
+//        centersDAO.EditCenter(centers);
+//        return "redirect:/centers";
+//    }
 
     @PostMapping("/deleteCenter/{id}")
     public String deleteCenter(@PathVariable("id") int id){
@@ -94,7 +115,7 @@ public class ControllerCenter {
         examsDAO.deleteExamTypesCenters(centersDAO.find_center_by_id(id));
         examsDAO.deleteExamCenters(centersDAO.find_center_by_id(id));
         centersDAO.deleteCenter(id);
-        return "redirect:/home";
+        return "redirect:/centers";
     }
 
     @PostMapping("/findCentersOfArea")

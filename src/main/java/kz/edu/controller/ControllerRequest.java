@@ -79,7 +79,7 @@ public class ControllerRequest {
                                    @RequestParam("c_id") int c_id,
                                    @RequestParam("n_o_p") int n_o_p,
                                    @RequestParam("start") String start,
-                                   @RequestParam("finish") String finish, Model model){
+                                   @RequestParam("finish") String finish){
         Dates dates = new Dates();
         dates.setStart_date(start);
         dates.setFinish_date(finish);
