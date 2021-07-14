@@ -12,6 +12,7 @@
             <option value="none" hidden="">Choose one</option>
             <option value="1">Exam Type</option>
             <option value="2">Area</option>
+            <option value="3">Free Choice</option>
         </select>
     </div>
     <div id="ET">
@@ -28,6 +29,7 @@
                     th:text="${area.getArea_name()}"></option>
         </select>
     </div>
+    <input id="FC" type="hidden" name="free_choice" value="none">
     <input type="submit" value="Create"/>
     <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
 </form>
@@ -37,17 +39,32 @@
     $(document).ready(function() {
         $("#ET").hide();
         $("#AN").hide();
+        $('#FC').val('none');
         $('#CT').on("change",function() {
             const val = $(this).val();
             if (val === "1" ) {
                 $("#ET").show();
+                $('#ET').val('none');
                 $("#AN").hide();
+                $('#AN').val('none');
+                $('#FC').val('none');
             } else if (val === "2" ) {
                 $("#ET").hide();
+                $('#ET').val('none');
                 $("#AN").show();
+                $('#AN').val('none');
+                $('#FC').val('none');
+            } else if (val === "3" ) {
+                $("#ET").hide();
+                $('#ET').val('none');
+                $("#AN").hide();
+                $('#AN').val('none');
+                $('#FC').val('free_choice');
             }
         });
     });
+
+
 </script>
 <script src="js/index.js"></script>
 </html>

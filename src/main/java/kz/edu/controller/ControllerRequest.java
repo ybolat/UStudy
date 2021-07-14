@@ -60,12 +60,14 @@ public class ControllerRequest {
         }
         String statusName = "pending";
         requests.setStatus(requestsDAO.find_status_by_name(statusName));
-        requestsDAO.createRequest(requests);
         if(!area_name.equals("none")){
+            requests.setExam_types(examsDAO.find_examType_by_name("byArea"));
             model.addAttribute("cList", centersDAO.getCentersOfArea(areaDAO.find_area_by_name(area_name)));
         }else if(free_choice.equals("free_choice")){
+            requests.setExam_types(examsDAO.find_examType_by_name("freeChoice"));
             model.addAttribute("cList", centersDAO.getAllCenters());
         }
+        requestsDAO.createRequest(requests);
         model.addAttribute("req", requestsDAO.find_request_by_name(examName));
         model.addAttribute("rcList", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_name(examName)));
         return "createRequestCenter";

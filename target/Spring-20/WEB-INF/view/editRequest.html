@@ -5,12 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:each="rc:${rcList}">
-        <div th:text="${rc.getCenters().getRegion()}"></div>
-        <div th:text="${rc.getNum_of_places()}"></div>
-        <div th:text="${rc.getDates().getStart_date()}"></div>
-        <div th:text="${rc.getDates().getFinish_date()}"></div>
-        <a th:href="'/editRequestCenters/'+${rc.getRc()}">Edit</a>
+    <div th:each="rc:${rcHM}">
+        <div th:text="${rc.key.getCenters().getRegion()}"></div>
+        <div th:text="${rc.key.getNum_of_places()}"></div>
+        <div th:text="${rc.key.getDates().getStart_date()}"></div>
+        <div th:text="${rc.key.getDates().getFinish_date()}"></div>
+        <a th:href="'/editRequestCenters/'+${rc.key.getRc()}">Edit</a>
         <hr>
     </div>
 </body>
