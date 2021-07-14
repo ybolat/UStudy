@@ -11,6 +11,7 @@ import kz.edu.model.Exams_centers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,14 +31,11 @@ public class ControllerExam {
         this.datesDAO = datesDAO;
     }
 
-    @PostMapping("/getAllExams")
-    public void getAllExams(Model model){
+    @GetMapping("/getAllExams")
+    public String getAllExams(Model model){
         model.addAttribute("examList", examsDAO.getAllExams());
-    }
-
-    @PostMapping("/getAllExamsCenters")
-    public void getAllExamsCenters(Model model){
         model.addAttribute("examCentersList", examsDAO.getAllExams_Centers());
+        return "calendar";
     }
 
     @PostMapping("/editExamTypesCenters")
@@ -96,7 +94,7 @@ public class ControllerExam {
         return "redirect:/home";
     }
 
-    @PostMapping("/EditExamCenters")
+    @PostMapping("/editExamCenters")
     public String editExamCenters(@RequestParam("name") String name,
                                   @RequestParam("id") int id,
                                   @RequestParam("text") String text,
@@ -112,5 +110,12 @@ public class ControllerExam {
         datesDAO.EditDates(dates);
         examsDAO.EditExamCenters(exams_centers);
         return "redirect:/home";
+    }
+
+    @GetMapping("/deleteExam/{id}")
+    public String deleteExam(@PathVariable("id") int id){
+        examsDAO.deleteExamCenters(examsDAO.findExamById(id));
+        examsDAO.deleteExam(examsDAO.findExamById(id));
+        return "redirect:/calendar";
     }
 }

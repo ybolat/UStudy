@@ -103,6 +103,27 @@ public class ExamsDAO {
         return exams_centersList;
     }
 
+    public List<Exams_centers> find_exam_centers_by_exam(Exams exams){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<Exams_centers> exams_centersList;
+        try{
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Exams_centers> query = builder.createQuery(Exams_centers.class);
+            Root<Exams_centers> root = query.from(Exams_centers.class);
+
+            Predicate predicate = builder.equal(root.get("exams"), exams);
+            exams_centersList = session.createQuery(query.where(predicate)).getResultList();
+        }
+        catch (NoResultException noResultException) {
+            exams_centersList = null;
+        }
+        finally{
+            session.close();
+        }
+        return exams_centersList;
+    }
+
     public void deleteExamCenters(Centers center){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -116,6 +137,32 @@ public class ExamsDAO {
             session.close();
         }
     }
+
+    public void deleteExamCenters(Exams exams){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            List<Exams_centers> exams_centersList = find_exam_centers_by_exam(exams);
+            for (int i = 0; i < exams_centersList.size(); i++){
+                session.delete(exams_centersList.get(i));
+            }
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void deleteExam(Exams exams){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            session.delete(exams);
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+    }
+
 
     public void CreateExamCenters(Exams_centers exams_centers){
         Session session = sessionFactory.openSession();
