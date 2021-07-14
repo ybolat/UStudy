@@ -36,6 +36,8 @@ public class ControllerRequest {
     public String createRequest(Model model){
         model.addAttribute("typeList", examsDAO.getAllExamTypes());
         model.addAttribute("areaList", areaDAO.getAllAreas());
+        model.addAttribute("byArea","byArea");
+        model.addAttribute("freeChoice","freeChoice");
         return "createRequest";
     }
 
