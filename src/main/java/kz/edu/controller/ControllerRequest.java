@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -86,12 +87,6 @@ public class ControllerRequest {
         requests_centers.setNum_of_places(n_o_p);
         requests_centers.setRequests(requestsDAO.find_request_by_name(name));
         requestsDAO.createRequest_Centers(requests_centers);
-        List<Centers> centersList = centersDAO.getAllCenters();
-        Centers c_array[] = new Centers[centersList.size()];
-        for(int i = 0; i < centersList.size(); i++){
-            c_array[i] = centersList.get(i);
-        }
-        model.addAttribute("c_array", c_array);
         return requests_centers.getRc();
     }
 
@@ -163,7 +158,31 @@ public class ControllerRequest {
 
     @GetMapping("/editRequest/{id}")
     public String editRequest(@PathVariable("id") int id, Model model){
-        model.addAttribute("rcList", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
+        List<Exams_centers> exams_centersList = examsDAO.getAllExams_Centers();
+        List<Requests_centers> requests_centersList = requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id));
+        HashMap<Requests_centers, Integer> hm = new HashMap<>();
+        for (int i = 0; i < requests_centersList.size(); i++){
+            int counter = 0;
+            for (int j = 0; j < exams_centersList.size(); j++){
+                if (requests_centersList.get(i).getCenters() == exams_centersList.get(j).getCenters() &&
+                        (requests_centersList.get(i).getDates().getStart_date().
+                                equals(exams_centersList.get(i).getDates().getStart_date()) ||
+                requests_centersList.get(i).getDates().getFinish_date().equals(exams_centersList.get(i).
+                        getDates().getStart_date()) || requests_centersList.get(i).getDates().getStart_date().
+                                equals(exams_centersList.get(i).getDates().getFinish_date()) ||
+                                requests_centersList.get(i).getDates().getFinish_date().equals(exams_centersList.get(i).
+                                        getDates().getFinish_date()))){
+                    counter++;
+                    break;
+                }
+            }
+            if (counter == 0){
+                hm.put(requests_centersList.get(i), 0);
+            }else{
+                hm.put(requests_centersList.get(i), 1);
+            }
+        }
+        model.addAttribute("rcHM", hm);
         return "editRequest";
     }
 }
