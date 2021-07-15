@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:each="res:${myReq}">
+        <div th:text="${res.getExam_name()}"></div>
+        <div th:text="${res.getExam_types().getExam_type_name()}"></div>
+        <div th:text="${res.getStatus().getStatus_name()}"></div>
+        <a th:if="${res.getStatus().getStatus_name().equals(pending)}"
+           th:href="'/editMyRequests/' + ${res.getRequest_id()}">Show</a>
+        <hr>
+    </div>
+</body>
+</html>
