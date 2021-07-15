@@ -189,4 +189,19 @@ public class ControllerRequest {
         model.addAttribute("rcHM", hm);
         return "editRequest";
     }
+
+    @GetMapping("/myRequests")
+    public String myRequests(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        model.addAttribute("myReq", requestsDAO.getRequestsOfUser(userDAO.findByUserName(currentPrincipalName)));
+        model.addAttribute("pending", "pending");
+        return "myRequests";
+    }
+
+    @GetMapping("/editMyRequests/{id}")
+    public String editMyRequests(Model model, @PathVariable("id") int id){
+        model.addAttribute("myRC", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
+        return "editMyRequests";
+    }
 }

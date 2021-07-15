@@ -107,6 +107,23 @@ public class RequestsDAO {
         return requestsList;
     }
 
+    public List<Requests> getRequestsOfUser(User user){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<Requests> requestsList;
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Requests> criteria = builder.createQuery(Requests.class);
+            Root<Requests> root = criteria.from(Requests.class);
+
+            Predicate predicate = builder.equal(root.get("user"), user);
+            requestsList = session.createQuery(criteria.where(predicate)).getResultList();
+        } finally {
+            session.close();
+        }
+        return requestsList;
+    }
+
     public List<Requests_centers> getRequestCentersOfRequest(Requests requests){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
