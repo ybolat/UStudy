@@ -1,9 +1,6 @@
 package kz.edu.controller;
 
-import kz.edu.dao.CentersDAO;
-import kz.edu.dao.DatesDAO;
-import kz.edu.dao.ExamsDAO;
-import kz.edu.dao.RequestsDAO;
+import kz.edu.dao.*;
 import kz.edu.model.Dates;
 import kz.edu.model.Exam_types_centers;
 import kz.edu.model.Exams;
@@ -22,19 +19,23 @@ public class ControllerExam {
     private final CentersDAO centersDAO;
     private final RequestsDAO requestsDAO;
     private final DatesDAO datesDAO;
+    private final AreaDAO areaDAO;
 
     @Autowired
-    public ControllerExam(ExamsDAO examsDAO, CentersDAO centersDAO, RequestsDAO requestsDAO, DatesDAO datesDAO) {
+    public ControllerExam(ExamsDAO examsDAO, CentersDAO centersDAO, RequestsDAO requestsDAO, DatesDAO datesDAO, AreaDAO areaDAO) {
         this.examsDAO = examsDAO;
         this.centersDAO = centersDAO;
         this.requestsDAO = requestsDAO;
         this.datesDAO = datesDAO;
+        this.areaDAO = areaDAO;
     }
 
     @GetMapping("/getAllExams")
     public String getAllExams(Model model){
         model.addAttribute("examList", examsDAO.getAllExams());
         model.addAttribute("examCentersList", examsDAO.getAllExams_Centers());
+        model.addAttribute("centersList", centersDAO.getAllCenters());
+        model.addAttribute("areasList", areaDAO.getAllAreas());
         return "calendar";
     }
 
