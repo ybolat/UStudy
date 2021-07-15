@@ -201,7 +201,11 @@ public class ControllerRequest {
 
     @GetMapping("/editMyRequests/{id}")
     public String editMyRequests(Model model, @PathVariable("id") int id){
-        model.addAttribute("myRC", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
-        return "editMyRequests";
+        if (requestsDAO.find_request_by_id(id).getStatus().getStatus_name().equals("pending")){
+            model.addAttribute("myRC", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
+            return "editMyRequests";
+        }else{
+            return "redirect:/home";
+        }
     }
 }
