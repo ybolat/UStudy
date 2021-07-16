@@ -5,7 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-    <form th:action="'/center/'+${center.getCenter_id()}" method="post">
+    <form action="/center" method="post">
+        <input type="hidden" name="id" th:value="${center.getCenter_id()}">
         <input type="text" name="region" th:value="${center.getRegion()}"><br>
         <input type="text" name="address" th:value="${center.getAddress()}"><br>
         <input type="text" name="phone" th:value="${center.getPhone_number()}"><br>

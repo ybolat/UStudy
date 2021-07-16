@@ -134,18 +134,18 @@ public class ControllerRequest {
         return requests_centers.getRc();
     }
 
-    @GetMapping("/editRequestCenters/{id}")
-    public String editRequestCenter(Model model, @PathVariable("id") int id){
+    @GetMapping("/editRequestCenters")
+    public String editRequestCenter(Model model, @RequestParam("id") int id){
         model.addAttribute("reqCen", requestsDAO.find_rc_by_id(id));
         model.addAttribute("centerList", centersDAO.getAllCenters());
         return "editRC";
     }
 
-    @PostMapping("/editRequestCenters/{id}")
+    @PostMapping("/editRequestCenters")
     @ResponseBody
     public int editRequest(@RequestParam("start") String start,
                             @RequestParam("finish") String finish,
-                            @PathVariable("id") int id,
+                            @RequestParam("id") int id,
                             @RequestParam("nop") int nop,
                             @RequestParam("center") String center) {
         Requests_centers requests_centers = requestsDAO.find_rc_by_id(id);
@@ -239,8 +239,8 @@ public class ControllerRequest {
         return "myRequests";
     }
 
-    @GetMapping("/editMyRequests/{id}")
-    public String editMyRequests(Model model, @PathVariable("id") int id){
+    @GetMapping("/editMyRequests")
+    public String editMyRequests(Model model, @RequestParam("id") int id){
         if (requestsDAO.find_request_by_id(id).getStatus().getStatus_name().equals("pending")){
             model.addAttribute("myRC", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
             return "editMyRequests";

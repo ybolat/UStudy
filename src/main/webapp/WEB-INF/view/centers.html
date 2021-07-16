@@ -12,7 +12,10 @@
         <div th:text="${center.getEmail()}"></div>
         <div th:text="${center.getNum_of_places()}"></div>
         <div th:text="${center.getArea().getArea_name()}"></div>
-        <a th:href="'/center/'+${center.getCenter_id()}">Edit</a>
+        <form action="center" method="get">
+            <input type="hidden" name="id" th:value="${center.getCenter_id()}">
+            <input type="submit" value="Edit">
+        </form>
         <form th:action="'/deleteCenter/'+${center.getCenter_id()}" method="post">
             <input type="submit" value="Delete">
         </form>

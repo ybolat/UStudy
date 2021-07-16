@@ -42,7 +42,8 @@
         <div class="container p-3 my-3 border border-primary rounded ">
             <div class="row">
                 <div class="col-sm-6">
-                    <form th:action="'/editRequestCenters/'+${reqCen.getRc()}" method="post">
+                    <form action="/editRequestCenters" method="post">
+                        <input type="hidden" name="id" th:value="${reqCen.getRc()}">
                         <div class="input-group mb-3">
                             <input type="text" th:value="${reqCen.getDates().getStart_date()}" name="start" class="form-control" placeholder="STARTING DATE AND TIME"  aria-describedby="basic-addon2">
                         </div>

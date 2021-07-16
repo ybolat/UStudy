@@ -43,17 +43,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href=""></a>
                 </li>
-                <li th:if="${user == null}" class="nav-item">
-                    <a class="nav-link btn btn-success" href="/login">Login</a>
-                </li>
-                <li th:if="${user == null}" class="nav-item">
-                    <a class="nav-link btn btn-success" href="/registration">Sign up</a>
-                </li>
                 <li th:if="${user != null}" class="nav-item">
                     <a class="nav-link btn btn-success" href="/logout">Logout</a>
-                </li>
-                <li th:if="${user != null}" class="nav-item">
-                    <a class="nav-link btn btn-success" href="/createRequest">Apply request</a>
                 </li>
             </ul>
         </div>
@@ -71,7 +62,10 @@
                         <div th:text="${rc.key.getNum_of_places()}"></div>
                         <div th:text="${rc.key.getDates().getStart_date()}"></div>
                         <div th:text="${rc.key.getDates().getFinish_date()}"></div>
-                        <a th:href="'/editRequestCenters/'+${rc.key.getRc()}" class="btn btn-primary btn-sm d-inline-block text-white">EDIT</a>
+                        <form action="/editRequestCenters" method="get" class="d-inline-block">
+                            <input type="hidden" name="id" th:value="${rc.key.getRc()}">
+                            <input type="submit" value="EDIT" class="btn btn-primary btn-sm text-white">
+                        </form>
                     </div>
                 </div>
             </div>

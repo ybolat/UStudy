@@ -9,6 +9,9 @@
         <div th:text="${res.getExam_name()}"></div>
         <div th:text="${res.getExam_types().getExam_type_name()}"></div>
         <div th:text="${res.getStatus().getStatus_name()}"></div>
+        <form action="/editMyRequests" method="get">
+
+        </form>
         <a th:if="${res.getStatus().getStatus_name().equals(pending)}"
            th:href="'/editMyRequests/' + ${res.getRequest_id()}">Show</a>
         <hr>

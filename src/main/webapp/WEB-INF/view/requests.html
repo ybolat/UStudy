@@ -58,9 +58,9 @@
                                 <input type="hidden" th:value="${res.getRequest_id()}" name="id">
                                 <input type="submit" value="DECLINE" class="btn btn-primary btn-sm text-white">
                             </form>
-                            <form action="/editRequest" method="get">
+                            <form action="/editRequest" method="get" class="d-inline-block">
                                 <input type="hidden" name="id" th:value="${res.getRequest_id()}">
-                                <input type="submit" value="edit">
+                                <input type="submit" value="edit" class="btn btn-primary btn-sm text-white">
                             </form>
                             </divd-inline-block>
                     </div>

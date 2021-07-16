@@ -34,15 +34,15 @@ public class ControllerCenter {
         return "centers";
     }
 
-    @GetMapping("/center/{id}")
-    public String getCurrentCenter(Model model, @PathVariable("id") int id){
+    @GetMapping("/center")
+    public String getCurrentCenter(Model model, @RequestParam("id") int id){
         model.addAttribute("center", centersDAO.find_center_by_id(id));
         model.addAttribute("areas", areaDAO.getAllAreas());
         return "center";
     }
 
-    @PostMapping("/center/{id}")
-    public String ChangeCurrentCenter(@PathVariable("id") int id,
+    @PostMapping("/center")
+    public String ChangeCurrentCenter(@RequestParam("id") int id,
                                     @RequestParam("region") String region,
                                     @RequestParam("address") String address,
                                     @RequestParam("phone") String phone,
