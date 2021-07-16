@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+    <div th:each="center:${centers}">
+        <div th:text="${center.getRegion()}"></div>
+        <div th:text="${center.getAddress()}"></div>
+        <div th:text="${center.getPhone_number()}"></div>
+        <div th:text="${center.getEmail()}"></div>
+        <div th:text="${center.getNum_of_places()}"></div>
+        <div th:text="${center.getArea().getArea_name()}"></div>
+        <a th:href="'/center/'+${center.getCenter_id()}">Edit</a>
+        <form th:action="'/deleteCenter/'+${center.getCenter_id()}" method="post">
+            <input type="submit" value="Delete">
+        </form>
+        <hr>
+    </div>
+<a href="/createCenter">Create a new Center</a>
 </body>
 </html>

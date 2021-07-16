@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+    <form action="/createCenter" method="post">
+        <input type="text" name="region"><br>
+        <input type="text" name="address"><br>
+        <input type="text" name="phone_number"><br>
+        <input type="text" name="email"><br>
+        <input type="number" name="num_of_places"><br>
+        <select name="areaName">
+            <option th:each="area:${areas}" th:text="${area.getArea_name()}"
+                    th:value="${area.getArea_name()}"></option>
+        </select><br>
+        <input type="submit" value="create">
+    </form>
 </body>
 </html>

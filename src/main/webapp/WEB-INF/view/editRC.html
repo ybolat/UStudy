@@ -57,7 +57,8 @@
                                 <label class="input-group-text" for="inputGroupSelect01">CENTERS</label>
                             </div>
                             <select name="center" class="custom-select" id="inputGroupSelect01">
-                                <option th:each="center:${centerList}" th:value="${center.getRegion()}"></option>
+                                <option th:each="center:${centerList}" th:value="${center.getRegion()}"
+                                        th:text="${center.getRegion()}"></option>
                             </select>
                         </div>
                         <input type="submit" value="CHANGE" class="btn btn-primary btn-sm text-white col-sm-3">
