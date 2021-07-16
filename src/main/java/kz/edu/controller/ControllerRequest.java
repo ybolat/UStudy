@@ -144,7 +144,7 @@ public class ControllerRequest {
             exams_centers.setCenters(requests_centersList.get(i).getCenters());
             examsDAO.CreateExamCenters(exams_centers);
         }
-        return "redirect:/home";
+        return "redirect:/requestsOfStatus";
     }
 
     @PostMapping("/decline")
@@ -157,7 +157,7 @@ public class ControllerRequest {
         for(int i = 0; i < requests_centersList.size(); i++){
             requestsDAO.deleteRequestsCenters(requests_centersList.get(i));
         }
-        return "redirect:/home";
+        return "redirect:/requestsOfStatus";
     }
 
     @GetMapping("/editRequest/{id}")

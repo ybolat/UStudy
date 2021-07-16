@@ -18205,31 +18205,31 @@ input:focus {
 @font-face {
   font-family: 'Rubik';
   src: url("../fonts/Rubik/Rubik-Bold.eot.eot");
-  src: url("../fonts/Rubik/Rubik-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/Rubik/Rubik-Bold.woff2") format("woff2"), url("../fonts/Rubik/Rubik-Bold.woff") format("woff"), url("../fonts/Rubik/Rubik-Bold.ttf") format("truetype");
+  src: url("../../WEB-INF/view/fonts/Rubik/Rubik-Bold.eot?#iefix") format("embedded-opentype"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Bold.woff2") format("woff2"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Bold.woff") format("woff"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Rubik';
-  src: url("../fonts/Rubik/Rubik-Light.eot");
-  src: url("../fonts/Rubik/Rubik-Light.eot?#iefix") format("embedded-opentype"), url("../fonts/Rubik/Rubik-Light.woff2") format("woff2"), url("../fonts/Rubik/Rubik-Light.woff") format("woff"), url("../fonts/Rubik/Rubik-Light.ttf") format("truetype");
+  src: url("../../WEB-INF/view/fonts/Rubik/Rubik-Light.eot");
+  src: url("../../WEB-INF/view/fonts/Rubik/Rubik-Light.eot?#iefix") format("embedded-opentype"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Light.woff2") format("woff2"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Light.woff") format("woff"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Rubik';
-  src: url("../fonts/Rubik/Rubik-Medium.eot");
-  src: url("../fonts/Rubik/Rubik-Medium.eot?#iefix") format("embedded-opentype"), url("../fonts/Rubik/Rubik-Medium.woff2") format("woff2"), url("../fonts/Rubik/Rubik-Medium.woff") format("woff"), url("../fonts/Rubik/Rubik-Medium.ttf") format("truetype");
+  src: url("../../WEB-INF/view/fonts/Rubik/Rubik-Medium.eot");
+  src: url("../../WEB-INF/view/fonts/Rubik/Rubik-Medium.eot?#iefix") format("embedded-opentype"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Medium.woff2") format("woff2"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Medium.woff") format("woff"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Rubik';
-  src: url("../fonts/Rubik/Rubik-Regular.eot");
-  src: url("../fonts/Rubik/Rubik-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/Rubik/Rubik-Regular.woff2") format("woff2"), url("../fonts/Rubik/Rubik-Regular.woff") format("woff"), url("../fonts/Rubik/Rubik-Regular.ttf") format("truetype");
+  src: url("../../WEB-INF/view/fonts/Rubik/Rubik-Regular.eot");
+  src: url("../../WEB-INF/view/fonts/Rubik/Rubik-Regular.eot?#iefix") format("embedded-opentype"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Regular.woff2") format("woff2"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Regular.woff") format("woff"), url("../../WEB-INF/view/fonts/Rubik/Rubik-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -18357,7 +18357,7 @@ h6, .h6 {
 
 .footer {
   color: #e5e5e5;
-  background: #3c37f1 url(../images/footer_bg.svg);
+  background: #3c37f1 url(../../WEB-INF/view/images/footer_bg.svg);
   background-size: cover;
   background-position: left bottom;
 }
@@ -18618,7 +18618,7 @@ html {
 }
 
 .home {
-  background: url("../images/banner-bg.svg");
+  background: url("../../WEB-INF/view/images/banner-bg.svg");
   background-repeat-y: no-repeat;
   background-position: 0 -50px;
   padding-top: 103px;
@@ -18696,7 +18696,7 @@ section {
 }
 
 .testimonial {
-  background: #a70ff6 url("../images/testimonial-bg.svg");
+  background: #a70ff6 url("../../WEB-INF/view/images/testimonial-bg.svg");
   padding: 100px 0 70px 0;
   background-size: cover;
 }
@@ -18751,7 +18751,7 @@ section {
   left: -40px;
   color: transparent;
   font-size: 1.75rem;
-  background: url(../images/quote.png) no-repeat;
+  background: url(../../WEB-INF/view/images/quote.png) no-repeat;
 }
 
 .testimonial .testimonial-item .testimonial-destination {
@@ -19599,6 +19599,14 @@ label.valid:after {
     margin-right: 0px;
     margin-bottom: 10px; } }
 
+.request_admin{
+  margin: 40px;
+}
+.request{
+  margin: 10px;
+  border: 20px;
+  font-size: 20px;
+}
 /*# sourceMappingURL=style.css.map */
 
 

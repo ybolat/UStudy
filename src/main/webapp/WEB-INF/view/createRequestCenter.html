@@ -5,50 +5,94 @@
     <title>Title</title>
 </head>
 <body>
-    <input type="button" name="createRC" id="createRC">
-    <input type="hidden" id="rcID" th:value="${r_id}"/>
-    <div id="RC"></div>
-</body>
-  <script th:inline="javascript">
-    $(document).on('click', '#createRC', function () {
-      $.ajax({
-        url: "/createRequestCenter",
-        data: {reqCenter: document.getElementById('rcID').value},
-        type: "POST",
-        success: function (data) {
-          data = JSON.parse(data);
-          console.log("your data: ", data);
-          let rc_id = data;
-          let c_array = [[${c_array}]];
 
-      //     $("#RC").append(
-      //             "<div id='" + rc_id + "' class=\"form-inner\" style=\"display: block;\">\n" +
-      //             "            <p>\n" +
-      //             "                <select name='centersList'"
-      //                                   for( let i = 0;; i < c_array.length; i++){
-      //                                   }
-      //
-      //             "                <input type=\"text\" id='Q_type_" + rc_id + "' onchange=\"changeQuestionType(" + rc_id + ")\" placeholder=\"Question type\"/>" +
-      //             "            </p>\n" +
-      //             "            <p>\n" +
-      //             "                <input type=\"button\" onclick='createAnswer(" + rc_id + ")' value=\"Create Answer\"/>\n" +
-      //             "                <input type=\"button\" onclick=\"deleteQuestion(" + rc_id + ")\" value=\"Delete Question\"/>\n" +
-      //             "            </p>\n" +
-      //             "            <p id='answer_" + rc_id + "'>\n" +
-      //             "            </p>\n" +
-      //             "        </div>"
-      //     )
-         }
-       })
+<div th:with="request=${req}">
+    <input type="button" name="createRC" id="createRC" value="add center">
+    <input type="hidden" id="reqID" th:value="${request.getRequest_id()}"/>
+</div>
+
+<div id="RC">
+
+</div>
+
+</body>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script>
+    $(document).on('click', '#createRC', function () {
+        $.ajax({
+            url: "/createRequestCenter",
+            data: {request_id: document.getElementById('reqID').value},
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+                let rc_id = data;
+
+                $("#RC").append(
+                    "<div>" +
+                    "      <div>\n" +
+                    "            <select name=\"centers\">\n" +
+                    "                  <option value=\"none\" hidden=\"\">Choose center</option>\n" +
+                    "                  <option th:each=\"centerList:${cList}\" th:value=\"${centerList.getCenter_id()}\" th:text=\"${centerList.getRegion()}\"></option>\n" +
+                    "            </select>\n" +
+                    "      </div>" +
+                    "      <input type=\"text\" name=\"n_o_p\" onchange=\"changeNOP("+ rc_id +")\" id=\"n_o_p" + rc_id + "\" placeholder='num of places'>" +
+                    "      <input type=\"datetime\" name=\"start\" onchange=\"changeStart("+ rc_id +")\" id=\"start" + rc_id + "\" placeholder='start date'>" +
+                    "      <input type=\"datetime\" name=\"finish\" onchange=\"changeFinish("+ rc_id +")\" id=\"finish" + rc_id + "\" placeholder='finish date'>" +
+                    "</div>"
+                )
+            }
+        })
     })
 
-    function changeCenter(){
-
+    function changeNOP(rc_id){
+        let rcnop = document.getElementById('n_o_p'+rc_id).value;
+        $.ajax({
+            url: "/updateRCNOP",
+            data: {
+                rc_id: rc_id,
+                n_o_p: rcnop
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
     }
 
-    function deleteCenter(){
-
+    function changeStart(rc_id){
+        let rcstart = document.getElementById('start'+rc_id).value;
+        $.ajax({
+            url: "/updateRCStart",
+            data: {
+                rc_id: rc_id,
+                start: rcstart
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
     }
 
-  </script>
+    function changeFinish(rc_id){
+        let rcfinish = document.getElementById('finish'+rc_id).value;
+        $.ajax({
+            url: "/updateRCFinish",
+            data: {
+                rc_id: rc_id,
+                finish: rcfinish
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+
+</script>
+<script src="js/index.js"></script>
 </html>
