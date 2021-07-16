@@ -84,31 +84,6 @@ public class ControllerCenter {
         return "redirect:/centers";
     }
 
-//    @GetMapping("/editCenter/{id}")
-//    public String editCenter(Model model, @PathVariable("id") int id){
-//        model.addAttribute("center", centersDAO.find_center_by_id(id));
-//        return "editCenter";
-//    }
-//
-//    @PostMapping("/editCenter/{id}")
-//    public String editCenter(@PathVariable("id") int id,
-//                            @RequestParam("region") String region,
-//                            @RequestParam("address") String address,
-//                            @RequestParam("phone_number") String phone_number,
-//                            @RequestParam("num_of_places") int num_of_places,
-//                            @RequestParam("email") String email,
-//                            @RequestParam("areaName") String areaName){
-//        Centers centers = centersDAO.find_center_by_id(id);
-//        centers.setAddress(address);
-//        centers.setArea(areaDAO.find_area_by_name(areaName));
-//        centers.setEmail(email);
-//        centers.setNum_of_places(num_of_places);
-//        centers.setPhone_number(phone_number);
-//        centers.setRegion(region);
-//        centersDAO.EditCenter(centers);
-//        return "redirect:/centers";
-//    }
-
     @PostMapping("/deleteCenter/{id}")
     public String deleteCenter(@PathVariable("id") int id){
         requestsDAO.deleteRequestsCenters(centersDAO.find_center_by_id(id));

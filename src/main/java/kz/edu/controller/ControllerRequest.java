@@ -77,20 +77,60 @@ public class ControllerRequest {
 
     @PostMapping("/createRequestCenter")
     @ResponseBody
-    public int createRequestCenter(@RequestParam("name") String name,
-                                   @RequestParam("c_id") int c_id,
-                                   @RequestParam("n_o_p") int n_o_p,
-                                   @RequestParam("start") String start,
-                                   @RequestParam("finish") String finish){
-        Dates dates = new Dates();
-        dates.setStart_date(start);
-        dates.setFinish_date(finish);
+    public int createRequestCenter(@RequestParam("request_id") int request_id){
+        Requests requests = requestsDAO.find_request_by_id(request_id);
         Requests_centers requests_centers = new Requests_centers();
-        requests_centers.setCenters(centersDAO.find_center_by_id(c_id));
+        Dates dates = new Dates();
+        dates.setStart_date("2021-01-01 00:00:00");
+        dates.setFinish_date("2021-01-01 00:00:00");
+        datesDAO.CreateDate(dates);
+        requests_centers.setCenters(null);
         requests_centers.setDates(dates);
-        requests_centers.setNum_of_places(n_o_p);
-        requests_centers.setRequests(requestsDAO.find_request_by_name(name));
+        requests_centers.setNum_of_places(0);
+        requests_centers.setRequests(requests);
         requestsDAO.createRequest_Centers(requests_centers);
+        return requests_centers.getRc();
+    }
+
+    @PostMapping("/updateRCCenter")
+    @ResponseBody
+    public int updateRCCenter(@RequestParam("rc_id") int rc_id,
+                              @RequestParam("c_id") int c_id){
+        Requests_centers requests_centers = requestsDAO.find_rc_by_id(rc_id);
+        requests_centers.setCenters(centersDAO.find_center_by_id(c_id));
+        requestsDAO.editRequest_Centers(requests_centers);
+        return requests_centers.getRc();
+    }
+
+    @PostMapping("/updateRCNOP")
+    @ResponseBody
+    public int updateRCNOP(@RequestParam("rc_id") int rc_id,
+                           @RequestParam("n_o_p") int n_o_p){
+        Requests_centers requests_centers = requestsDAO.find_rc_by_id(rc_id);
+        requests_centers.setNum_of_places(n_o_p);
+        requestsDAO.editRequest_Centers(requests_centers);
+        return requests_centers.getRc();
+    }
+
+    @PostMapping("/updateRCStart")
+    @ResponseBody
+    public int updateRCStart(@RequestParam("rc_id") int rc_id,
+                             @RequestParam("start") String start){
+        Dates dates = datesDAO.find_date_by_id(requestsDAO.find_rc_by_id(rc_id).getDates().getDates_id());
+        dates.setStart_date(start);
+        datesDAO.EditDates(dates);
+        Requests_centers requests_centers = requestsDAO.find_rc_by_id(rc_id);
+        return requests_centers.getRc();
+    }
+
+    @PostMapping("/updateRCFinish")
+    @ResponseBody
+    public int updateRCFinish(@RequestParam("rc_id") int rc_id,
+                              @RequestParam("finish") String finish){
+        Dates dates = datesDAO.find_date_by_id(requestsDAO.find_rc_by_id(rc_id).getDates().getDates_id());
+        dates.setFinish_date(finish);
+        datesDAO.EditDates(dates);
+        Requests_centers requests_centers = requestsDAO.find_rc_by_id(rc_id);
         return requests_centers.getRc();
     }
 
@@ -160,8 +200,8 @@ public class ControllerRequest {
         return "redirect:/requestsOfStatus";
     }
 
-    @GetMapping("/editRequest/{id}")
-    public String editRequest(@PathVariable("id") int id, Model model){
+    @GetMapping("/editRequest")
+    public String editRequest(@RequestParam("id") int id, Model model){
         List<Exams_centers> exams_centersList = examsDAO.getAllExams_Centers();
         List<Requests_centers> requests_centersList = requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id));
         HashMap<Requests_centers, Integer> hm = new HashMap<>();

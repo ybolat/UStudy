@@ -5,19 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-
-<div th:with="request=${req}">
-    <input type="button" name="createRC" id="createRC" value="add center">
-    <input type="hidden" id="reqID" th:value="${request.getRequest_id()}"/>
-</div>
-
-<div id="RC">
-
-</div>
-
+    <div th:with="request=${req}">
+        <input type="button" name="createRC" id="createRC" value="add center">
+        <input type="hidden" id="reqID" th:value="${request.getRequest_id()}"/>
+    </div>
+    <div id="RC"></div>
 </body>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
-<script>
+<script th:inline="javascript">
     $(document).on('click', '#createRC', function () {
         $.ajax({
             url: "/createRequestCenter",
@@ -31,10 +26,12 @@
                 $("#RC").append(
                     "<div>" +
                     "      <div>\n" +
-                    "            <select name=\"centers\">\n" +
+                    "            <select id=\"c_id" + rc_id + "\" onchange='changeCenter("+ rc_id +")' name=\"centers\">\n" +
                     "                  <option value=\"none\" hidden=\"\">Choose center</option>\n" +
-                    "                  <option th:each=\"centerList:${cList}\" th:value=\"${centerList.getCenter_id()}\" th:text=\"${centerList.getRegion()}\"></option>\n" +
-                    "            </select>\n" +
+                    /*[# th:each="centerList:${cList}"]*/
+                    "                  <option value='[[${centerList.getCenter_id()}]]' >" + [[${centerList.getRegion()}]] + "</option>\n" +
+                    /*[/]*/
+                    "            </select>" +
                     "      </div>" +
                     "      <input type=\"text\" name=\"n_o_p\" onchange=\"changeNOP("+ rc_id +")\" id=\"n_o_p" + rc_id + "\" placeholder='num of places'>" +
                     "      <input type=\"datetime\" name=\"start\" onchange=\"changeStart("+ rc_id +")\" id=\"start" + rc_id + "\" placeholder='start date'>" +
@@ -44,7 +41,8 @@
             }
         })
     })
-
+</script>
+<script>
     function changeNOP(rc_id){
         let rcnop = document.getElementById('n_o_p'+rc_id).value;
         $.ajax({
@@ -93,6 +91,21 @@
         })
     }
 
+    function changeCenter(rc_id){
+        let rcCenter = document.getElementById('c_id'+rc_id).value;
+        $.ajax({
+            url: "/updateRCCenter",
+            data: {
+                rc_id: rc_id,
+                c_id: rcCenter
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
 </script>
 <script src="js/index.js"></script>
 </html>
