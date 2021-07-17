@@ -75,6 +75,29 @@ public class ControllerRequest {
         return "createRequestCenter";
     }
 
+    @GetMapping("/editMyRequests")
+    public String editMyRequests(Model model, @RequestParam("id") int id){
+        if (requestsDAO.find_request_by_id(id).getStatus().getStatus_name().equals("pending")){
+            model.addAttribute("rcList", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
+            Requests requests = requestsDAO.find_request_by_id(id);
+            model.addAttribute("req", requests);
+            if(!requests.getStatus().getStatus_name().equals("byArea") &&
+            !requests.getStatus().getStatus_name().equals("freeChoice")){
+                List<Exam_types_centers> exam_types_centersList = examsDAO.getCentersOfExamType(requests.getExam_types());
+                List<Centers> centersList = new ArrayList<>();
+                for (int i = 0; i < exam_types_centersList.size(); i++){
+                    centersList.add(exam_types_centersList.get(i).getCenters());
+                }
+                model.addAttribute("cList", centersList);
+            }else{
+                model.addAttribute("cList", centersDAO.getAllCenters());
+            }
+            return "createRequestCenter";
+        }else{
+            return "redirect:/home";
+        }
+    }
+
     @PostMapping("/createRequestCenter")
     @ResponseBody
     public int createRequestCenter(@RequestParam("request_id") int request_id){
@@ -239,13 +262,4 @@ public class ControllerRequest {
         return "myRequests";
     }
 
-    @GetMapping("/editMyRequests")
-    public String editMyRequests(Model model, @RequestParam("id") int id){
-        if (requestsDAO.find_request_by_id(id).getStatus().getStatus_name().equals("pending")){
-            model.addAttribute("myRC", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
-            return "editMyRequests";
-        }else{
-            return "redirect:/home";
-        }
-    }
 }
