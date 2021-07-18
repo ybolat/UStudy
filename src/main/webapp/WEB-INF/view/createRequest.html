@@ -50,9 +50,6 @@
                             <input type="text" name="examName" class="form-control"  aria-describedby="basic-addon1">
                         </div><br>
                         <div class="input-group mb-3">
-                            <div class="input-group-append">
-                                <label class="input-group-text" for="inputGroupSelect02">Choose one</label>
-                            </div>
                             <select name="choose_types" class="custom-select" id="CT">
                                 <option value="none" hidden="">Choose one</option>
                                 <option value="1">Exam Type</option>
@@ -61,9 +58,6 @@
                             </select>
                         </div><br>
                         <div class="input-group mb-3" id="ET">
-                            <div class="input-group-append">
-                                <label class="input-group-text" for="inputGroupSelect02">Exam types</label>
-                            </div>
                             <select name="exam_types" class="custom-select" id="inputGroupSelect02">
                                 <option value="none" hidden="">Choose Exam</option>
                                 <option th:eachoption th:each="type:${typeList}"
@@ -73,9 +67,6 @@
                                         th:text="${type.getExam_type_name()}"></option>
                             </select></div><br>
                         <div class="input-group mb-3" id="AN">
-                            <div class="input-group-append">
-                                <label class="input-group-text" for="inputGroupSelect03">Area name</label>
-                            </div>
                             <select name="area_name" class="custom-select" id="inputGroupSelect03">
                                 <option value="none" hidden="">Choose Area</option>
                                 <option th:each="area:${areaList}" th:value="${area.getArea_name()}"
