@@ -8,8 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -230,17 +230,30 @@ public class ControllerRequest {
         HashMap<Requests_centers, Integer> hm = new HashMap<>();
         for (int i = 0; i < requests_centersList.size(); i++){
             int counter = 0;
-            for (int j = 0; j < exams_centersList.size(); j++){
-                if (requests_centersList.get(i).getCenters() == exams_centersList.get(j).getCenters() &&
-                        (requests_centersList.get(i).getDates().getStart_date().
-                                equals(exams_centersList.get(i).getDates().getStart_date()) ||
-                requests_centersList.get(i).getDates().getFinish_date().equals(exams_centersList.get(i).
-                        getDates().getStart_date()) || requests_centersList.get(i).getDates().getStart_date().
-                                equals(exams_centersList.get(i).getDates().getFinish_date()) ||
-                                requests_centersList.get(i).getDates().getFinish_date().equals(exams_centersList.get(i).
-                                        getDates().getFinish_date()))){
+            for (int j = 0; j < exams_centersList.size(); j++) {
+                String datetime1 = exams_centersList.get(j).getDates().getStart_date();
+                String datetime2 = exams_centersList.get(j).getDates().getFinish_date();
+                String datetime3 = requests_centersList.get(i).getDates().getStart_date();
+                String datetime4 = requests_centersList.get(i).getDates().getFinish_date();
+                String date1 = datetime1.substring(0,10);
+                String date2 = datetime2.substring(0,10);
+                String date3 = datetime3.substring(0,10);
+                String date4 = datetime4.substring(0,10);
+                int h1 = Integer.parseInt(datetime1.substring(11,13));
+                int h2 = Integer.parseInt(datetime2.substring(11,13));
+                int h3 = Integer.parseInt(datetime3.substring(11,13));
+                int h4 = Integer.parseInt(datetime4.substring(11,13));
+                if (requests_centersList.get(i).getCenters().getRegion().
+                        equals(exams_centersList.get(j).getCenters().getRegion()) &&
+                        (datetime1.equals(datetime3) || datetime2.equals(datetime4)
+                                || datetime2.equals(datetime3) || datetime1.equals(datetime4))) {
                     counter++;
                     break;
+                }else if(date1.equals(date3) || date2.equals(date3) || date1.equals(date4) || date2.equals(date4)){
+                    if((h1 >= h3 && h4 >= h1) || (h1 <= h3 && h3 <= h2)){
+                        counter++;
+                        break;
+                    }
                 }
             }
             if (counter == 0){

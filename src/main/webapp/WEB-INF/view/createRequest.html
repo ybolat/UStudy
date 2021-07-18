@@ -28,32 +28,8 @@
                 <a href="javascript:;" class="close-menu"><i class="mdi mdi-close"></i></a>
             </div>
             <ul class="navbar-nav ml-auto align-items-center">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#home">Home<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">Request</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#projects">Tests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#testimonial">Reviews</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""></a>
-                </li>
-                <li th:if="${user == null}" class="nav-item">
-                    <a class="nav-link btn btn-success" href="/login">Login</a>
-                </li>
-                <li th:if="${user == null}" class="nav-item">
-                    <a class="nav-link btn btn-success" href="/registration">Sign up</a>
-                </li>
                 <li th:if="${user != null}" class="nav-item">
                     <a class="nav-link btn btn-success" href="/logout">Logout</a>
-                </li>
-                <li th:if="${user != null}" class="nav-item">
-                    <a class="nav-link btn btn-success" href="/createRequest">Apply request</a>
                 </li>
             </ul>
         </div>
@@ -188,6 +164,5 @@
             });
         });
     </script>
-    <script src="js/index.js"></script>
 </body>
 </html>

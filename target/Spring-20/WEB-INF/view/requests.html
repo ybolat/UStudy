@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div th:each="res:${resList}" class="request">
-                        <div th:text="${res.getUser().getLogin()}">Customer Name:</div>
+                        <div th:text="'Customer Name:' + ${res.getUser().getLogin()}"></div>
                         <div th:text="${res.getUser().getEmail()}">Customer Email:</div>
                         <div th:text="${res.getExam_name()}">Exam name:</div>
                         <div th:text="${res.getExam_types().getExam_type_name()}">Exam Type:</div>
@@ -63,9 +63,9 @@
                                 <input type="submit" value="edit" class="btn btn-primary btn-sm text-white">
                             </form>
                             </divd-inline-block>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </section>
