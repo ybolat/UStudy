@@ -81,8 +81,8 @@ public class ControllerRequest {
             model.addAttribute("rcList", requestsDAO.getRequestCentersOfRequest(requestsDAO.find_request_by_id(id)));
             Requests requests = requestsDAO.find_request_by_id(id);
             model.addAttribute("req", requests);
-            if(!requests.getStatus().getStatus_name().equals("byArea") &&
-            !requests.getStatus().getStatus_name().equals("freeChoice")){
+            if(!requests.getExam_types().equals("byArea") &&
+            !requests.getExam_types().equals("freeChoice")){
                 List<Exam_types_centers> exam_types_centersList = examsDAO.getCentersOfExamType(requests.getExam_types());
                 List<Centers> centersList = new ArrayList<>();
                 for (int i = 0; i < exam_types_centersList.size(); i++){

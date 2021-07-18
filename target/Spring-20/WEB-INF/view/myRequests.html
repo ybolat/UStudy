@@ -41,17 +41,15 @@
         <center><h2>List of Requests</h2></center>
         <div class="container p-3 my-3 border border-primary rounded ">
             <div class="row">
-                <div class="col-sm-3">
-                    <div th:each="res:${myReq}">
-                        <div th:text="'Exam Name:' + ${res.getExam_name()}"></div>
-                        <div th:text="'Exam type:' + ${res.getExam_types().getExam_type_name()}"></div>
-                        <div th:text="'Status:' + ${res.getStatus().getStatus_name()}"></div>
-                        <form th:if="${res.getStatus().getStatus_name().equals(pending)}"
-                              action="/editMyRequests" method="get" class="d-inline-block">
-                            <input type="hidden" name="id" th:value="${res.getRequest_id()}">
-                            <input type="submit" value="SHOW" class="btn btn-primary btn-sm text-white">
-                        </form>
-                    </div>
+                <div th:each="res:${myReq}" class="col-sm-3">
+                    <div th:text="'Exam Name:' + ${res.getExam_name()}"></div>
+                    <div th:text="'Exam type:' + ${res.getExam_types().getExam_type_name()}"></div>
+                    <div th:text="'Status:' + ${res.getStatus().getStatus_name()}"></div>
+                    <form th:if="${res.getStatus().getStatus_name().equals(pending)}"
+                          action="/editMyRequests" method="get" class="d-inline-block">
+                        <input type="hidden" name="id" th:value="${res.getRequest_id()}">
+                        <input type="submit" value="SHOW" class="btn btn-primary btn-sm text-white">
+                    </form>
                 </div>
             </div>
         </div>
