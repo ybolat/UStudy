@@ -165,8 +165,7 @@ public class ControllerRequest {
     }
 
     @PostMapping("/editRequestCenters")
-    @ResponseBody
-    public int editRequest(@RequestParam("start") String start,
+    public String editRequest(@RequestParam("start") String start,
                             @RequestParam("finish") String finish,
                             @RequestParam("id") int id,
                             @RequestParam("nop") int nop,
@@ -179,7 +178,7 @@ public class ControllerRequest {
         dates.setFinish_date(finish);
         datesDAO.EditDates(dates);
         requestsDAO.editRequest_Centers(requests_centers);
-        return requests_centers.getRc();
+        return "redirect:/requestsOfStatus";
     }
 
     @GetMapping("/requestsOfStatus")
@@ -205,6 +204,7 @@ public class ControllerRequest {
             exams_centers.setExams(exams);
             exams_centers.setDates(requests_centersList.get(i).getDates());
             exams_centers.setCenters(requests_centersList.get(i).getCenters());
+            exams_centers.setNumber_of_places(requests_centersList.get(i).getNum_of_places());
             examsDAO.CreateExamCenters(exams_centers);
         }
         return "redirect:/requestsOfStatus";
@@ -247,19 +247,17 @@ public class ControllerRequest {
                         equals(exams_centersList.get(j).getCenters().getRegion()) &&
                         (datetime1.equals(datetime3) || datetime2.equals(datetime4)
                                 || datetime2.equals(datetime3) || datetime1.equals(datetime4))) {
-                    counter++;
-                    break;
+                    counter += exams_centersList.get(j).getNumber_of_places();
                 }else if(date1.equals(date3) || date2.equals(date3) || date1.equals(date4) || date2.equals(date4)){
                     if((h1 >= h3 && h4 >= h1) || (h1 <= h3 && h3 <= h2)){
-                        counter++;
-                        break;
+                        counter += exams_centersList.get(j).getNumber_of_places();
                     }
                 }
             }
-            if (counter == 0){
-                hm.put(requests_centersList.get(i), 0);
-            }else{
-                hm.put(requests_centersList.get(i), 1);
+            if(requests_centersList.get(i).getCenters().getNum_of_places() - counter > 0){
+                hm.put(requests_centersList.get(i), requests_centersList.get(i).getCenters().getNum_of_places() - counter);
+            }else if (requests_centersList.get(i).getCenters().getNum_of_places() - counter < 0){
+                hm.put(requests_centersList.get(i), -1);
             }
         }
         model.addAttribute("rcHM", hm);

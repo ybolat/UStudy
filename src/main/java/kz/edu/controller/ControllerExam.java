@@ -47,18 +47,17 @@ public class ControllerExam {
         exam_types_centers.setExam_types(examsDAO.find_examType_by_name(etName));
         exam_types_centers.setCenters(centersDAO.findCenter(text));
         examsDAO.EditExamTypesCenters(exam_types_centers);
-        return "redirect:/home";
+        return "redirect:/calendar";
     }
 
     @PostMapping("/addExamTypesCenters")
     public String addExamTypesCenters(@RequestParam("etName") String etName,
-                                       @RequestParam("text") String text,
-                                       @RequestParam("id") int id){
+                                       @RequestParam("text") String text){
         Exam_types_centers exam_types_centers = new Exam_types_centers();
         exam_types_centers.setExam_types(examsDAO.find_examType_by_name(etName));
         exam_types_centers.setCenters(centersDAO.findCenter(text));
         examsDAO.AddExamTypesCenters(exam_types_centers);
-        return "redirect:/home";
+        return "redirect:/calendar";
     }
 
     @PostMapping("/createExam")
@@ -67,27 +66,29 @@ public class ControllerExam {
         exams.setRequests(requestsDAO.find_request_by_name(name));
         exams.setExam_types(examsDAO.find_examType_by_name(type));
         examsDAO.CreateExam(exams);
-        return "redirect:/home";
+        return "redirect:/calendar";
     }
 
     @PostMapping("/createExamCenters")
-    public String createExamCenters(@RequestParam("et") String type, @RequestParam("name") String name,
+    public String createExamCenters(@RequestParam("id") int id, @RequestParam("nop") int nop,
                                     @RequestParam("text") String text,
                                     @RequestParam("start") String start,
                                     @RequestParam("finish") String finish){
         Exams_centers exams_centers = new Exams_centers();
-        exams_centers.setExams(examsDAO.findExamByRequest(requestsDAO.find_request_by_name(name)));
+        exams_centers.setExams(examsDAO.findExamById(id));
         exams_centers.setCenters(centersDAO.findCenter(text));
+        exams_centers.setNumber_of_places(nop);
         Dates dates = new Dates();
         dates.setStart_date(start);
         dates.setFinish_date(finish);
         exams_centers.setDates(dates);
         examsDAO.CreateExamCenters(exams_centers);
-        return "redirect:/home";
+        return "redirect:/calendar";
     }
 
-    @PostMapping("/editExam/{id}")
-    public String editExam(@RequestParam("et") String type, @RequestParam("name") String name, @PathVariable("id") int id){
+    @PostMapping("/editExam")
+    public String editExam(@RequestParam("et") String type, @RequestParam("name") String name,
+                           @RequestParam("id") int id){
         Exams exams = examsDAO.findExamById(id);
         exams.setRequests(requestsDAO.find_request_by_name(name));
         exams.setExam_types(examsDAO.find_examType_by_name(type));
@@ -101,10 +102,12 @@ public class ControllerExam {
                                   @RequestParam("text") String text,
                                   @RequestParam("d_id") int d_id,
                                   @RequestParam("newStart") String start,
-                                  @RequestParam("newFinish") String finish){
+                                  @RequestParam("newFinish") String finish,
+                                  @RequestParam("nop") int nop){
         Exams_centers exams_centers = examsDAO.findExamCentersById(id);
         exams_centers.setExams(examsDAO.findExamByRequest(requestsDAO.find_request_by_name(name)));
         exams_centers.setCenters(centersDAO.findCenter(text));
+        exams_centers.setNumber_of_places(nop);
         Dates dates = datesDAO.find_date_by_id(d_id);
         dates.setFinish_date(finish);
         dates.setStart_date(start);

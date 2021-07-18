@@ -10,6 +10,7 @@ public class Exams_centers implements Serializable {
     private Exams exams;
     private Centers centers;
     private Dates dates;
+    private int Number_of_places;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +47,13 @@ public class Exams_centers implements Serializable {
     }
     public void setDates(Dates dates) {
         this.dates = dates;
+    }
+
+    @Column(name = "num_of_places")
+    public int getNumber_of_places() {
+        return Number_of_places;
+    }
+    public void setNumber_of_places(int number_of_places) {
+        Number_of_places = number_of_places;
     }
 }

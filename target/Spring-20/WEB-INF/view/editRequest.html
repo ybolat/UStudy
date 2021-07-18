@@ -62,7 +62,8 @@
                         <div th:text="${rc.key.getNum_of_places()}"></div>
                         <div th:text="${rc.key.getDates().getStart_date()}"></div>
                         <div th:text="${rc.key.getDates().getFinish_date()}"></div>
-                        <div th:if="${rc.value == 1}" text="Another examination is held at this time"></div>
+                        <div th:if="${rc.value == -1}">Not enough places</div>
+                        <div th:if="${rc.value != -1}" th:text="${rc.value} + ' places are free'"></div>
                         <form action="/editRequestCenters" method="get" class="d-inline-block">
                             <input type="hidden" name="id" th:value="${rc.key.getRc()}">
                             <input type="submit" value="EDIT" class="btn btn-primary btn-sm text-white">
