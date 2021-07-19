@@ -5,11 +5,26 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:with="request=${req}">
-        <input type="button" name="createRC" id="createRC" value="add center">
-        <input type="hidden" id="reqID" th:value="${request.getRequest_id()}"/>
+<div th:with="request=${req}">
+    <input type="button" name="createRC" id="createRC" value="add center">
+    <input type="hidden" id="reqID" th:value="${request.getRequest_id()}"/>
+</div>
+<div th:each="reqCent:${rcList}">
+    <div>
+        <select id="c_id" th:id="c_id+${reqCent.getRc()}" name="centers"
+                onchange='changeCenter()' th:attr="onchange=|changeCenter('${reqCent.getRc()}')|">
+            <option value="none" hidden="">Choose center</option>
+            <option th:each="centerList:${cList}" th:value='${centerList.getCenter_id()}' th:text="${centerList.getRegion()}"></option>
+        </select>
     </div>
-    <div id="RC"></div>
+    <input type="text" name="n_o_p" onchange="changeNOP()" th:attr="onchange=|changeNOP('${reqCent.getRc()}')|"
+           th:id="n_o_p+${reqCent.getRc()}" placeholder='num of places' th:value='${reqCent.getNum_of_places()}'>
+    <input type="datetime" name="start" onchange="changeStart()" th:attr="onchange=|changeStart('${reqCent.getRc()}')|"
+           th:id="start+${reqCent.getRc()}" placeholder='start date' th:value='${reqCent.getDates().getStart_date()}'>
+    <input type="datetime" name="finish" onchange="changeFinish()" th:attr="onchange=|changeFinish('${reqCent.getRc()}')|"
+           th:id="finish+${reqCent.getRc()}" placeholder='finish date' th:value='${reqCent.getDates().getFinish_date()}'>
+</div>
+<div id="RC"></div>
 </body>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
 <script th:inline="javascript">
