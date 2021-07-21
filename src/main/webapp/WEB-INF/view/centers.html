@@ -29,21 +29,9 @@
             </div>
             <ul class="navbar-nav ml-auto align-items-center">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#home">Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">Request</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#projects">Tests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#testimonial">Reviews</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""></a>
-                </li>
-                <li th:if="${user != null}" class="nav-item">
                     <a class="nav-link btn btn-success" href="/logout">Logout</a>
                 </li>
             </ul>
@@ -53,7 +41,7 @@
 
 <div class="page-body-wrapper">
     <section class="request_admin">
-        <center><h2>Edit Request additionally</h2></center>
+        <center><h2>Edit Request</h2></center>
         <div class="container p-3 my-3 border border-primary rounded ">
             <div class="row">
                 <div class="col-sm-3">
@@ -72,7 +60,9 @@
                             <input type="submit" value="DELETE" class="btn btn-primary btn-sm text-white">
                         </form>
                     </div>
-                    <a class="nav-link btn btn-success" href="/createCenter">Create a new Center</a>
+                    <form action="/createCenter" method="post" class="d-inline-block">
+                        <input type="submit" value="Create a new Center" class="btn btn-primary btn-sm text-white">
+                    </form>
                 </div>
             </div>
         </div>

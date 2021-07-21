@@ -8,10 +8,7 @@ import kz.edu.model.Exams_centers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ControllerExam {
@@ -40,24 +37,29 @@ public class ControllerExam {
     }
 
     @PostMapping("/editExamTypesCenters")
-    public String editExamTypesCenters(@RequestParam("etName") String etName,
-                                       @RequestParam("text") String text,
-                                       @RequestParam("id") int id){
+    @ResponseBody
+    public int editExamTypesCenters(@RequestParam("etName") String etName,
+                                    @RequestParam("id") int id){
         Exam_types_centers exam_types_centers = examsDAO.findExamTypeCentersById(id);
         exam_types_centers.setExam_types(examsDAO.find_examType_by_name(etName));
-        exam_types_centers.setCenters(centersDAO.findCenter(text));
         examsDAO.EditExamTypesCenters(exam_types_centers);
-        return "redirect:/calendar";
+        return exam_types_centers.getEtc();
     }
 
     @PostMapping("/addExamTypesCenters")
-    public String addExamTypesCenters(@RequestParam("etName") String etName,
-                                       @RequestParam("text") String text){
+    @ResponseBody
+    public int addExamTypesCenters(@RequestParam("id") int id){
         Exam_types_centers exam_types_centers = new Exam_types_centers();
-        exam_types_centers.setExam_types(examsDAO.find_examType_by_name(etName));
-        exam_types_centers.setCenters(centersDAO.findCenter(text));
+        exam_types_centers.setCenters(centersDAO.find_center_by_id(id));
         examsDAO.AddExamTypesCenters(exam_types_centers);
-        return "redirect:/calendar";
+        return exam_types_centers.getEtc();
+    }
+
+    @PostMapping("/deleteExamTypesCenters")
+    @ResponseBody
+    public int deleteExamTypesCenters(@RequestParam("id") int id){
+        examsDAO.removeExamTypesCenters(examsDAO.findExamTypeCentersById(id));
+        return id;
     }
 
     @PostMapping("/createExam")

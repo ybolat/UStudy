@@ -28,7 +28,7 @@
                 <a href="javascript:;" class="close-menu"><i class="mdi mdi-close"></i></a>
             </div>
             <ul class="navbar-nav ml-auto align-items-center">
-                <li th:if="${user != null}" class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link btn btn-success" href="/logout">Logout</a>
                 </li>
             </ul>
@@ -40,45 +40,63 @@
         <center><h2>Create Request</h2></center>
         <div class="container p-3 my-3 border border-primary rounded ">
             <div class="row">
-                <div class="col-sm-3">
-                    <form action="/createCenter" method="post">
+                <div th:with="cent=${centers}" class="col-sm-3">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Region</span>
                             </div>
-                            <input type="text" name="region" class="form-control"  aria-describedby="basic-addon1">
+                            <input type="text" th:id="'region'+${cent.getCenter_id()}"
+                                   onchange="changeRegion()" th:attr="onchange=|changeRegion('${cent.getCenter_id()}')|"
+                                   name="region" class="form-control"  aria-describedby="basic-addon1">
                         </div><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon2">Address</span>
                             </div>
-                            <input type="text" name="address" class="form-control"  aria-describedby="basic-addon2">
+                            <input type="text" th:id="'address'+${cent.getCenter_id()}"
+                                   onchange="changeAddress()" th:attr="onchange=|changeAddress('${cent.getCenter_id()}')|"
+                                   name="address" class="form-control"  aria-describedby="basic-addon2">
                         </div><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Phone Number</span>
                             </div>
-                            <input type="text" name="phone_number" class="form-control"  aria-describedby="basic-addon3">
+                            <input type="text" th:id="'phone_number'+${cent.getCenter_id()}"
+                                   onchange="changePhone_number()" th:attr="onchange=|changePhone_number('${cent.getCenter_id()}')|"
+                                   name="phone_number" class="form-control"  aria-describedby="basic-addon3">
                         </div><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon4">Email</span>
                             </div>
-                            <input type="text" name="email" class="form-control"  aria-describedby="basic-addon4">
+                            <input type="text" th:id="'email'+${cent.getCenter_id()}"
+                                   onchange="changeEmail()" th:attr="onchange=|changeEmail('${cent.getCenter_id()}')|"
+                                   name="email" class="form-control"  aria-describedby="basic-addon4">
                         </div><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon5">Number of Places</span>
                             </div>
-                            <input type="number" name="num_of_places" class="form-control"  aria-describedby="basic-addon5">
+                            <input type="number" th:id="'num_of_places'+${cent.getCenter_id()}"
+                                   onchange="changeNOP()" th:attr="onchange=|changeNOP('${cent.getCenter_id()}')|"
+                                   name="num_of_places" class="form-control"  aria-describedby="basic-addon5">
                         </div><br>
-                        <select name="areaName" class="custom-select">
+                        <select th:id="'areaName'+${cent.getCenter_id()}"
+                                onchange="changeArea()" th:attr="onchange=|changeArea('${cent.getCenter_id()}')|"
+                                name="areaName" class="custom-select" >
                             <option value="none" hidden="">Choose one</option>
                             <option th:each="area:${areas}" th:text="${area.getArea_name()}"
                                     th:value="${area.getArea_name()}"></option>
                         </select><br>
+                        <input type="hidden" id="getCenter_id" th:value="${cent.getCenter_id()}">
+                        <div id="forAddedExamTypes">
+
+                        </div><br>
+                        <div>
+                            <input type="button" id="AddExamType" value="Add Exam Type"
+                                   name="AddExamType" class="btn btn-primary btn-sm text-white col-sm-5" aria-describedby="basic-addon5">
+                        </div><br>
                         <input type="submit" value="CREATE " class="btn btn-primary btn-sm text-white col-sm-5"/>
-                    </form>
                 </div>
             </div>
         </div>
@@ -119,6 +137,162 @@
         </div>
     </div>
 </footer>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script th:inline="javascript">
+    $(document).on('click', '#AddExamType', function () {
+        $.ajax({
+            url: "/addExamTypesCenters",
+            data: {id: document.getElementById('getCenter_id').value},
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+                let etc_id = data;
+
+                $("#forAddedExamTypes").append(
+                    "<div id='div"+etc_id+"'>" +
+                    "      <div>\n" +
+                    "            <select class=\"custom-select\" id=\"ExamTypeCenter" + etc_id + "\" onchange='changeExamTypeCenter("+ etc_id +")' name=\"ExamTypeCenter\">\n" +
+                    "                  <option value=\"none\" hidden=\"\">Choose type</option>\n" +
+                    /*[# th:each="exams_type:${exams_types}"]*/
+                    "                  <option value='" + [[${exams_type.getExam_type_name()}]] + "' >" + [[${exams_type.getExam_type_name()}]] + "</option>\n" +
+                    /*[/]*/
+                    "            </select>" +
+                    "      </div>" +
+                    "      <input type=\"button\" onclick='deleteExamTypeCenter("+etc_id+")' name=\"deleteETC\" id=\"deleteETC" + etc_id + "\" value='delete'>" +
+                    "</div>"
+                )
+            }
+        })
+    })
+</script>
+<script>
+    function changeExamTypeCenter(etc_id){
+        let etc_et = document.getElementById('ExamTypeCenter'+etc_id).value;
+        $.ajax({
+            url: "/editExamTypesCenters",
+            data: {
+                id: etc_id,
+                etName: etc_et
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+
+    function deleteExamTypeCenter(etc_id){
+        $.ajax({
+            url: "/deleteExamTypesCenters",
+            data: {
+                id: etc_id
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+
+                $('#div'+etc_id).remove();
+            }
+        })
+    }
+
+    function changeNOP(c_id){
+        let cNOP = document.getElementById('num_of_places'+c_id).value;
+        $.ajax({
+            url: "/updateNOP",
+            data: {
+                id: c_id,
+                nop: cNOP
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+
+    function changeEmail(c_id){
+        let cEmail = document.getElementById('email'+c_id).value;
+        $.ajax({
+            url: "/updateEmail",
+            data: {
+                id: c_id,
+                email: cEmail
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+
+    function changePhone_number(c_id){
+        let cPhone_number = document.getElementById('phone_number'+c_id).value;
+        $.ajax({
+            url: "/updatePhone",
+            data: {
+                id: c_id,
+                phone: cPhone_number
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+
+    function changeAddress(c_id){
+        let cAddress = document.getElementById('address'+c_id).value;
+        $.ajax({
+            url: "/updateAddress",
+            data: {
+                id: c_id,
+                address: cAddress
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+    function changeRegion(c_id){
+        let cRegion = document.getElementById('region'+c_id).value;
+        $.ajax({
+            url: "/updateRegion",
+            data: {
+                id: c_id,
+                region: cRegion
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+    function changeArea(c_id){
+        let cArea = document.getElementById('areaName'+c_id).value;
+        $.ajax({
+            url: "/updateArea",
+            data: {
+                id: c_id,
+                area: cArea
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+</script>
 <script src="vendors/base/vendor.bundle.base.js"></script>
 <script src="vendors/owl.carousel/js/owl.carousel.js"></script>
 <script src="vendors/aos/js/aos.js"></script>

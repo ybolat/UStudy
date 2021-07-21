@@ -8,10 +8,7 @@ import kz.edu.model.Centers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ControllerCenter {
@@ -31,6 +28,7 @@ public class ControllerCenter {
     @GetMapping("/centers")
     public String getCenters(Model model){
         model.addAttribute("centers", centersDAO.getAllCenters());
+        model.addAttribute("exams_types", examsDAO.getAllExamTypes());
         return "centers";
     }
 
@@ -38,6 +36,8 @@ public class ControllerCenter {
     public String getCurrentCenter(Model model, @RequestParam("id") int id){
         model.addAttribute("center", centersDAO.find_center_by_id(id));
         model.addAttribute("areas", areaDAO.getAllAreas());
+        model.addAttribute("etc", examsDAO.getExamTypesOfCenter(centersDAO.find_center_by_id(id)));
+        model.addAttribute("exams_types", examsDAO.getAllExamTypes());
         return "center";
     }
 
@@ -60,28 +60,79 @@ public class ControllerCenter {
         return "redirect:/centers";
     }
 
-    @GetMapping("/createCenter")
+//    @GetMapping("/createCenter")
+//    public String createCenter(Model model){
+//        model.addAttribute("areas", areaDAO.getAllAreas());
+//        return "createCenter";
+//    }
+
+    @PostMapping("/createCenter")
     public String createCenter(Model model){
+        Centers centers = new Centers();
+        centers.setAddress("");
+        centers.setArea(areaDAO.find_area_by_name("Almaty"));
+        centers.setEmail("");
+        centers.setNum_of_places(0);
+        centers.setPhone_number("");
+        centers.setRegion("");
+        centersDAO.createCenter(centers);
         model.addAttribute("areas", areaDAO.getAllAreas());
+        model.addAttribute("exams_types", examsDAO.getAllExamTypes());
+        model.addAttribute("centers", centers);
         return "createCenter";
     }
 
-    @PostMapping("/createCenter")
-    public String createCenter(@RequestParam("region") String region,
-                               @RequestParam("address") String address,
-                               @RequestParam("phone_number") String phone_number,
-                               @RequestParam("num_of_places") int num_of_places,
-                               @RequestParam("email") String email,
-                               @RequestParam("areaName") String areaName){
-        Centers centers = new Centers();
+    @PostMapping("/updateAddress")
+    @ResponseBody
+    public int updateAddress(@RequestParam("address") String address, @RequestParam("id") int id){
+        Centers centers = centersDAO.find_center_by_id(id);
         centers.setAddress(address);
-        centers.setArea(areaDAO.find_area_by_name(areaName));
+        return centers.getCenter_id();
+    }
+
+    @PostMapping("/updateArea")
+    @ResponseBody
+    public int updateArea(@RequestParam("area") String area, @RequestParam("id") int id){
+        Centers centers = centersDAO.find_center_by_id(id);
+        centers.setArea(areaDAO.find_area_by_name(area));
+        centersDAO.EditCenter(centers);
+        return centers.getCenter_id();
+    }
+
+    @PostMapping("/updateEmail")
+    @ResponseBody
+    public int updateEmail(@RequestParam("email") String email, @RequestParam("id") int id){
+        Centers centers = centersDAO.find_center_by_id(id);
         centers.setEmail(email);
-        centers.setNum_of_places(num_of_places);
-        centers.setPhone_number(phone_number);
+        centersDAO.EditCenter(centers);
+        return centers.getCenter_id();
+    }
+
+    @PostMapping("/updateNOP")
+    @ResponseBody
+    public int updateNOP(@RequestParam("nop") int NOP, @RequestParam("id") int id){
+        Centers centers = centersDAO.find_center_by_id(id);
+        centers.setNum_of_places(NOP);
+        centersDAO.EditCenter(centers);
+        return centers.getCenter_id();
+    }
+
+    @PostMapping("/updatePhone")
+    @ResponseBody
+    public int updatePhone(@RequestParam("phone") String phone, @RequestParam("id") int id){
+        Centers centers = centersDAO.find_center_by_id(id);
+        centers.setPhone_number(phone);
+        centersDAO.EditCenter(centers);
+        return centers.getCenter_id();
+    }
+
+    @PostMapping("/updateRegion")
+    @ResponseBody
+    public int updateRegion(@RequestParam("region") String region, @RequestParam("id") int id){
+        Centers centers = centersDAO.find_center_by_id(id);
         centers.setRegion(region);
-        centersDAO.createCenter(centers);
-        return "redirect:/centers";
+        centersDAO.EditCenter(centers);
+        return centers.getCenter_id();
     }
 
     @PostMapping("/deleteCenter/{id}")

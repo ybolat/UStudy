@@ -28,7 +28,7 @@
                 <a href="javascript:;" class="close-menu"><i class="mdi mdi-close"></i></a>
             </div>
             <ul class="navbar-nav ml-auto align-items-center">
-                <li th:if="${user != null}" class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link btn btn-success" href="/logout">Logout</a>
                 </li>
             </ul>
@@ -44,30 +44,53 @@
                 <div class="col-sm-6">
                     <form action="/center" method="post">
                         <input type="hidden" name="id" th:value="${center.getCenter_id()}">
-                        <div class="input-group mb-3">
+                            <div class="input-group mb-3">
                         <input type="text" name="region" th:value="${center.getRegion()}" class="form-control" aria-describedby="basic-addon2">
-                        </div>
+                            </div>
                         <div class="input-group mb-3">
                         <input type="text" name="address" th:value="${center.getAddress()}" class="form-control" aria-describedby="basic-addon2">
+                            </div>
+                        <div class="input-group mb-3">
+                            <input type="text" name="phone" th:value="${center.getPhone_number()}" class="form-control" aria-describedby="basic-addon2">
                         </div>
                         <div class="input-group mb-3">
-                        <input type="text" name="phone" th:value="${center.getPhone_number()}" class="form-control" aria-describedby="basic-addon2">
+                            <input type="text" name="email" th:value="${center.getEmail()}" class="form-control" aria-describedby="basic-addon2">
                         </div>
                         <div class="input-group mb-3">
-                        <input type="text" name="email" th:value="${center.getEmail()}" class="form-control" aria-describedby="basic-addon2">
+                            <input type="number" name="nop" th:value="${center.getNum_of_places()}" class="form-control" aria-describedby="basic-addon2">
                         </div>
                         <div class="input-group mb-3">
-                        <input type="number" name="nop" th:value="${center.getNum_of_places()}" class="form-control" aria-describedby="basic-addon2">
-                        </div>
-                        <div class="input-group mb-3">
-                        <select name="area" class="custom-select">
-                            <option th:value="${center.getArea().getArea_name()}" th:text="${center.getArea().getArea_name()}"></option>
-                            <option th:each="area:${areas}" th:if="${!center.getArea().getArea_name().equals(area.getArea_name())}"
-                                    th:text="${area.getArea_name()}" th:value="${area.getArea_name()}"></option>
-                        </select>
+                            <select name="area" class="custom-select">
+                                <option th:value="${center.getArea().getArea_name()}" th:text="${center.getArea().getArea_name()}"></option>
+                                <option th:each="area:${areas}" th:if="${!center.getArea().getArea_name().equals(area.getArea_name())}"
+                                        th:text="${area.getArea_name()}" th:value="${area.getArea_name()}"></option>
+                            </select>
                         </div>
                         <input type="submit" value="CHANGE" class="btn btn-primary btn-sm text-white col-sm-3">
                     </form>
+                    <input type="hidden" id="getCenter_id" th:value="${center.getCenter_id()}">
+                    <div id="forAddedExamTypes">
+                        <div >
+                            <div th:each="Extc:${etc}" th:id="'div'+${Extc.getEtc()}">
+                                <div>
+                                    <select class="custom-select" th:id="'ExamTypeCenter' + ${Extc.getEtc()}"
+                                            onchange='changeExamTypeCenter()' th:attr="onchange=|changeExamTypeCenter('${Extc.getEtc()}')|"
+                                             name="ExamTypeCenter">
+                                        <option th:if="${Extc.getExam_types() != null}" th:value='${Extc.getExam_types().getExam_type_name()}' th:text="${Extc.getExam_types().getExam_type_name()}" hidden=""></option>
+                                        <option th:if="${Extc.getExam_types() == null}" value="none" hidden="">Choose one</option>
+                                        <option value="none" hidden="">Choose one</option>
+                                        <option th:each="exams_type:${exams_types}" th:value='${exams_type.getExam_type_name()}' th:text="${exams_type.getExam_type_name()}"></option>
+                                    </select>
+                                </div>
+                                <input type="button" onclick='deleteExamTypeCenter()' th:attr="onclick=|deleteExamTypeCenter('${Extc.getEtc()}')|"
+                                       name="deleteETC" th:id="'deleteETC' + ${Extc.getEtc()}" value='delete'>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div>
+                        <input type="button" id="AddExamType" value="Add Exam Type"
+                               name="AddExamType" class="btn btn-primary btn-sm text-white col-sm-5" aria-describedby="basic-addon5">
+                    </div><br>
                 </div>
             </div>
         </div>
@@ -109,7 +132,68 @@
         </div>
     </div>
 </footer>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script th:inline="javascript">
+    $(document).on('click', '#AddExamType', function () {
+        $.ajax({
+            url: "/addExamTypesCenters",
+            data: {id: document.getElementById('getCenter_id').value},
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+                let etc_id = data;
 
+                $("#forAddedExamTypes").append(
+                    "<div id='div"+etc_id+"'>" +
+                    "      <div>\n" +
+                    "            <select class=\"custom-select\" id=\"ExamTypeCenter" + etc_id + "\" onchange='changeExamTypeCenter("+ etc_id +")' name=\"ExamTypeCenter\">\n" +
+                    "                  <option value=\"none\" hidden=\"\">Choose type</option>\n" +
+                    /*[# th:each="exams_type:${exams_types}"]*/
+                    "                  <option value='" + [[${exams_type.getExam_type_name()}]] + "' >" + [[${exams_type.getExam_type_name()}]] + "</option>\n" +
+                    /*[/]*/
+                    "            </select>" +
+                    "      </div>" +
+                    "      <input type=\"button\" onclick='deleteExamTypeCenter("+etc_id+")' name=\"deleteETC\" id=\"deleteETC" + etc_id + "\" value='delete'>" +
+                    "</div>"
+                )
+            }
+        })
+    })
+</script>
+<script>
+    function changeExamTypeCenter(etc_id){
+        let etc_et = document.getElementById('ExamTypeCenter'+etc_id).value;
+        $.ajax({
+            url: "/editExamTypesCenters",
+            data: {
+                id: etc_id,
+                etName: etc_et
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+            }
+        })
+    }
+
+    function deleteExamTypeCenter(etc_id){
+        $.ajax({
+            url: "/deleteExamTypesCenters",
+            data: {
+                id: etc_id
+            },
+            type: "POST",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log("your data: ", data);
+
+                $('#div'+etc_id).remove();
+            }
+        })
+    }
+</script>
 <script src="vendors/base/vendor.bundle.base.js"></script>
 <script src="vendors/owl.carousel/js/owl.carousel.js"></script>
 <script src="vendors/aos/js/aos.js"></script>

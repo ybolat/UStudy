@@ -82,6 +82,17 @@ public class ExamsDAO {
         }
     }
 
+    public void removeExamTypesCenters(Exam_types_centers exam_types_centers){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            session.delete(exam_types_centers);
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+    }
+
     public List<Exams_centers> find_exam_centers_by_center(Centers center){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -331,6 +342,27 @@ public class ExamsDAO {
             Root<Exam_types_centers> root = query.from(Exam_types_centers.class);
 
             Predicate predicate = builder.equal(root.get("exam_types"), exam_types);
+            exam_types_centersList = session.createQuery(query.where(predicate)).getResultList();
+        }
+        catch (NoResultException noResultException) {
+            exam_types_centersList = null;
+        }
+        finally{
+            session.close();
+        }
+        return exam_types_centersList;
+    }
+
+    public List<Exam_types_centers> getExamTypesOfCenter(Centers centers){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<Exam_types_centers> exam_types_centersList;
+        try{
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Exam_types_centers> query = builder.createQuery(Exam_types_centers.class);
+            Root<Exam_types_centers> root = query.from(Exam_types_centers.class);
+
+            Predicate predicate = builder.equal(root.get("centers"), centers);
             exam_types_centersList = session.createQuery(query.where(predicate)).getResultList();
         }
         catch (NoResultException noResultException) {
