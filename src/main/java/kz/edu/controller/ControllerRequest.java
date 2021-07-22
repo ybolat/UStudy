@@ -198,14 +198,16 @@ public class ControllerRequest {
         exams.setRequests(requests);
         examsDAO.CreateExam(exams);
         List<Requests_centers> requests_centersList = requestsDAO.getRequestCentersOfRequest(requests);
-        for(int i = 0; i < requests_centersList.size(); i++){
+        List<Exams_centers> exams_centersList = new ArrayList<>();
+        for (Requests_centers requests_centers : requests_centersList) {
             Exams_centers exams_centers = new Exams_centers();
             exams_centers.setExams(exams);
-            exams_centers.setDates(requests_centersList.get(i).getDates());
-            exams_centers.setCenters(requests_centersList.get(i).getCenters());
-            exams_centers.setNumber_of_places(requests_centersList.get(i).getNum_of_places());
-            examsDAO.CreateExamCenters(exams_centers);
+            exams_centers.setDates(requests_centers.getDates());
+            exams_centers.setCenters(requests_centers.getCenters());
+            exams_centers.setNumber_of_places(requests_centers.getNum_of_places());
+            exams_centersList.add(exams_centers);
         }
+        examsDAO.CreateExamCentersList(exams_centersList);
         return "redirect:/requestsOfStatus";
     }
 
@@ -216,9 +218,8 @@ public class ControllerRequest {
         requests.setStatus(requestsDAO.find_status_by_name(status));
         requestsDAO.editRequest(requests);
         List<Requests_centers> requests_centersList = requestsDAO.getRequestCentersOfRequest(requests);
-        for(int i = 0; i < requests_centersList.size(); i++){
-            requestsDAO.deleteRequestsCenters(requests_centersList.get(i));
-        }
+        requestsDAO.deleteRequestsCentersList(requests_centersList);
+        datesDAO.deleteDates(requests_centersList);
         return "redirect:/requestsOfStatus";
     }
 

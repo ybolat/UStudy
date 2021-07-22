@@ -188,6 +188,21 @@ public class ExamsDAO {
         }
     }
 
+    public void CreateExamCentersList(List<Exams_centers> exams_centers){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try{
+            for (int i = 0; i < exams_centers.size(); i++){
+                session.persist(exams_centers.get(i));
+            }
+            session.getTransaction().commit();
+        }
+        finally
+        {
+            session.close();
+        }
+    }
+
     public void EditExamCenters(Exams_centers exams_centers){
         Session session = sessionFactory.openSession();
         session.beginTransaction();

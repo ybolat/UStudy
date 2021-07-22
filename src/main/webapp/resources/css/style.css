@@ -19607,6 +19607,14 @@ label.valid:after {
   border: 20px;
   font-size: 20px;
 }
+
+.input-group-text{
+  width: 150px;
+  text-align: center;
+}
+.row{
+  margin: 10px;
+}
 /*# sourceMappingURL=style.css.map */
 
 

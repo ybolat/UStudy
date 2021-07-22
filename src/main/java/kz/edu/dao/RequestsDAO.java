@@ -229,6 +229,19 @@ public class RequestsDAO {
         }
     }
 
+    public void deleteRequestsCentersList(List<Requests_centers> requests_centers){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            for (int i = 0; i < requests_centers.size(); i++){
+                session.delete(requests_centers.get(i));
+            }
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+    }
+
     public Requests find_request_by_name(String name){
         Session session = sessionFactory.openSession();
         session.beginTransaction();

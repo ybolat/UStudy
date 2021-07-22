@@ -2,6 +2,7 @@ package kz.edu.dao;
 
 
 import kz.edu.model.Dates;
+import kz.edu.model.Requests_centers;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Repository
 public class DatesDAO {
@@ -88,12 +90,26 @@ public class DatesDAO {
 //        return dates;
 //    }
 
-    public void deleteDates(int id){
+    public void deleteDate(int id){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try {
             Dates dates = find_date_by_id(id);
             session.delete(dates);
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void deleteDates(List<Requests_centers> requests_centersList){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            for (Requests_centers requests_centers: requests_centersList){
+                Dates dates = find_date_by_id(requests_centers.getDates().getDates_id());
+                session.delete(dates);
+            }
             session.getTransaction().commit();
         } finally {
             session.close();
