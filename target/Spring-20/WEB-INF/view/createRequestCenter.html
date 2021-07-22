@@ -45,6 +45,14 @@
                                class="btn btn-primary btn-sm text-white col-sm-5" aria-describedby="basic-addon5"/>
                     </div>
                     <div th:each="reqCent:${rcList}">
+                        <div>
+                            <select id="c_id" th:id="c_id+${reqCent.getRc()}" name="centers"
+                                    onchange='changeCenter()' th:attr="onchange=|changeCenter('${reqCent.getRc()}')|"
+                                    class="custom-select" >
+                                <option value="none" hidden="">Choose center</option>
+                                <option th:each="centerList:${cList}" th:value='${centerList.getCenter_id()}' th:text="${centerList.getRegion()}"></option>
+                            </select><br>
+                        </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Number of Places</span>
@@ -69,14 +77,6 @@
                                th:id="finish+${reqCent.getRc()}" placeholder='finish date' th:value='${reqCent.getDates().getFinish_date()}'
                                class="form-control"  aria-describedby="basic-addon1">
                         </div><br>
-                        <div>
-                            <select id="c_id" th:id="c_id+${reqCent.getRc()}" name="centers"
-                                    onchange='changeCenter()' th:attr="onchange=|changeCenter('${reqCent.getRc()}')|"
-                                    class="custom-select" >
-                                <option value="none" hidden="">Choose center</option>
-                                <option th:each="centerList:${cList}" th:value='${centerList.getCenter_id()}' th:text="${centerList.getRegion()}"></option>
-                            </select><br>
-                        </div>
                     </div>
                     <div id="RC"></div>
                 </div>

@@ -18618,7 +18618,7 @@ html {
 }
 
 .home {
-  background: url("../../WEB-INF/view/images/banner-bg.svg");
+  background: url("/images/banner-bg.svg");
   background-repeat-y: no-repeat;
   background-position: 0 -50px;
   padding-top: 103px;
@@ -18751,7 +18751,7 @@ section {
   left: -40px;
   color: transparent;
   font-size: 1.75rem;
-  background: url(../../WEB-INF/view/images/quote.png) no-repeat;
+  background: url("/images/quote.png") no-repeat;
 }
 
 .testimonial .testimonial-item .testimonial-destination {
