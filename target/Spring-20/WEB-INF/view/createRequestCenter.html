@@ -134,16 +134,31 @@
                 $("#RC").append(
                     "<div>" +
                     "      <div>\n" +
-                    "            <select id=\"c_id" + rc_id + "\" onchange='changeCenter("+ rc_id +")' name=\"centers\">\n" +
+                    "            <select id=\"c_id" + rc_id + "\" onchange='changeCenter("+ rc_id +")' name=\"centers\" class=\"custom-select\">\n" +
                     "                  <option value=\"none\" hidden=\"\">Choose center</option>\n" +
                     /*[# th:each="centerList:${cList}"]*/
                     "                  <option value='[[${centerList.getCenter_id()}]]' >" + [[${centerList.getRegion()}]] + "</option>\n" +
                     /*[/]*/
                     "            </select>" +
                     "      </div>" +
-                    "      <input type=\"text\" name=\"n_o_p\" onchange=\"changeNOP("+ rc_id +")\" id=\"n_o_p" + rc_id + "\" placeholder='num of places'>" +
-                    "      <input type=\"datetime\" name=\"start\" onchange=\"changeStart("+ rc_id +")\" id=\"start" + rc_id + "\" placeholder='start date'>" +
-                    "      <input type=\"datetime\" name=\"finish\" onchange=\"changeFinish("+ rc_id +")\" id=\"finish" + rc_id + "\" placeholder='finish date'>" +
+                    "<div class=\"input-group mb-3\">" +
+                    " <div className=\"input-group-prepend\"> " +
+                    "   <span className=\"input-group-text\" id=\"basic-addon1\">Number of Places</span> " +
+                    " </div>" +
+                    "      <input type=\"text\" name=\"n_o_p\" onchange=\"changeNOP("+ rc_id +")\" id=\"n_o_p" + rc_id + "\" placeholder='num of places' class=\"form-control\"  aria-describedby=\"basic-addon1\">" +
+                    "</div><br>" +
+                    "<div class=\"input-group mb-3\">" +
+                    " <div className=\"input-group-prepend\"> " +
+                    "   <span className=\"input-group-text\" id=\"basic-addon1\">Start Date</span> " +
+                    " </div>" +
+                    "      <input type=\"datetime\" name=\"start\" onchange=\"changeStart("+ rc_id +")\" id=\"start" + rc_id + "\" placeholder='start date' class=\"form-control\"  aria-describedby=\"basic-addon1\">" +
+                    "</div><br>" +
+                    "<div class=\"input-group mb-3\">" +
+                    " <div className=\"input-group-prepend\"> " +
+                    "   <span className=\"input-group-text\" id=\"basic-addon1\">Finish date</span> " +
+                    " </div>" +
+                    "      <input type=\"datetime\" name=\"finish\" onchange=\"changeFinish("+ rc_id +")\" id=\"finish" + rc_id + "\" placeholder='finish date' class=\"form-control\"  aria-describedby=\"basic-addon1\">" +
+                    "</div><br>" +
                     "</div>"
                 )
             }
