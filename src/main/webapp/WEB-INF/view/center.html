@@ -18,7 +18,7 @@
 <body>
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="home.html"><img src="images/logo.png" alt="Marshmallow"></a>
+        <a class="navbar-brand" href="/home"><img src="images/logo.png" alt="Marshmallow"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"><i class="mdi mdi-menu"> </i></span>
         </button>
@@ -27,11 +27,6 @@
                 <img src="images/logo-dark.svg" class="logo-mobile-menu" alt="logo">
                 <a href="javascript:;" class="close-menu"><i class="mdi mdi-close"></i></a>
             </div>
-            <ul class="navbar-nav ml-auto align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-success" href="/logout">Logout</a>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
@@ -79,7 +74,8 @@
                                         <option th:if="${Extc.getExam_types() != null}" th:value='${Extc.getExam_types().getExam_type_name()}' th:text="${Extc.getExam_types().getExam_type_name()}" hidden=""></option>
                                         <option th:if="${Extc.getExam_types() == null}" value="none" hidden="">Choose one</option>
                                         <option value="none" hidden="">Choose one</option>
-                                        <option th:each="exams_type:${exams_types}" th:value='${exams_type.getExam_type_name()}' th:text="${exams_type.getExam_type_name()}"></option>
+                                        <option th:each="exams_type:${exams_types}" th:if="${!exams_type.getExam_type_name().equals('byArea') &&
+                                        !exams_type.getExam_type_name().equals('freeChoice')}" th:value='${exams_type.getExam_type_name()}' th:text="${exams_type.getExam_type_name()}"></option>
                                     </select>
                                 </div>
                                 <input type="button" onclick='deleteExamTypeCenter()' th:attr="onclick=|deleteExamTypeCenter('${Extc.getEtc()}')|"
@@ -150,7 +146,9 @@
                     "            <select class=\"custom-select\" id=\"ExamTypeCenter" + etc_id + "\" onchange='changeExamTypeCenter("+ etc_id +")' name=\"ExamTypeCenter\">\n" +
                     "                  <option value=\"none\" hidden=\"\">Choose type</option>\n" +
                     /*[# th:each="exams_type:${exams_types}"]*/
+                    /*[# th:if="${!exams_type.getExam_type_name().equals('byArea') && !exams_type.getExam_type_name().equals('freeChoice')}"]*/
                     "                  <option value='" + [[${exams_type.getExam_type_name()}]] + "' >" + [[${exams_type.getExam_type_name()}]] + "</option>\n" +
+                    /*[/]*/
                     /*[/]*/
                     "            </select>" +
                     "      </div>" +

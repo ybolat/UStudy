@@ -19,7 +19,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#"><img src="images/logo.png" alt="Marshmallow"></a>
+        <a class="navbar-brand" href="/home"><img src="images/logo.png" alt="Marshmallow"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"><i class="mdi mdi-menu"> </i></span>
         </button>
@@ -46,6 +46,15 @@
                 </li>
                 <li th:if="${user == null}" class="nav-item">
                     <a class="nav-link btn btn-success" href="/registration">Sign up</a>
+                </li>
+                <li th:if="${user != null}" class="nav-item">
+                    <a class="nav-link btn btn-success" href="/myRequests">my requests</a>
+                </li>
+                <li th:if="${user != null}" class="nav-item">
+                    <a class="nav-link btn btn-success" href="/centers">Centers</a>
+                </li>
+                <li th:if="${user != null && user.getRole().getId() == 1}" class="nav-item">
+                    <a class="nav-link btn btn-success" href="/requestsOfStatus">All Requests</a>
                 </li>
                 <li th:if="${user != null}" class="nav-item">
                     <a class="nav-link btn btn-success" href="/logout">Logout</a>

@@ -1,11 +1,11 @@
 package kz.edu.controller;
 
-import kz.edu.dao.AreaDAO;
-import kz.edu.dao.CentersDAO;
-import kz.edu.dao.ExamsDAO;
-import kz.edu.dao.RequestsDAO;
+import kz.edu.dao.*;
 import kz.edu.model.Centers;
+import kz.edu.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,19 +16,25 @@ public class ControllerCenter {
     private final AreaDAO areaDAO;
     private final ExamsDAO examsDAO;
     private final RequestsDAO requestsDAO;
+    private final UserDAO userDAO;
 
     @Autowired
-    public ControllerCenter(CentersDAO centersDAO, AreaDAO areaDAO, ExamsDAO examsDAO, RequestsDAO requestsDAO) {
+    public ControllerCenter(CentersDAO centersDAO, AreaDAO areaDAO, ExamsDAO examsDAO, RequestsDAO requestsDAO, UserDAO userDAO) {
         this.centersDAO = centersDAO;
         this.areaDAO = areaDAO;
         this.examsDAO = examsDAO;
         this.requestsDAO = requestsDAO;
+        this.userDAO = userDAO;
     }
 
     @GetMapping("/centers")
     public String getCenters(Model model){
         model.addAttribute("centers", centersDAO.getAllCenters());
         model.addAttribute("exams_types", examsDAO.getAllExamTypes());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDAO.findByUserName(currentPrincipalName);
+        model.addAttribute("user", user);
         return "centers";
     }
 
@@ -79,6 +85,7 @@ public class ControllerCenter {
         model.addAttribute("areas", areaDAO.getAllAreas());
         model.addAttribute("exams_types", examsDAO.getAllExamTypes());
         model.addAttribute("centers", centers);
+        model.addAttribute("byArea","byArea");
         return "createCenter";
     }
 

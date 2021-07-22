@@ -18,7 +18,7 @@
 <body>
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#"><img src="images/logo.png" alt="Marshmallow"></a>
+        <a class="navbar-brand" href="/home"><img src="images/logo.png" alt="Marshmallow"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"><i class="mdi mdi-menu"> </i></span>
         </button>
@@ -30,6 +30,9 @@
             <ul class="navbar-nav ml-auto align-items-center">
                 <li class="nav-item active">
                     <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li th:if="${user != null}" class="nav-item">
+                    <a class="nav-link btn btn-success" href="/myRequests">my requests</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-success" href="/logout">Logout</a>
@@ -52,15 +55,15 @@
                         <div th:text="${center.getEmail()}"></div>
                         <div th:text="${center.getNum_of_places()}"></div>
                         <div th:text="${center.getArea().getArea_name()}"></div>
-                        <form action="center" method="get" class="d-inline-block">
+                        <form th:if="${user.getRole().getId() == 1}" action="center" method="get" class="d-inline-block">
                             <input type="hidden" name="id" th:value="${center.getCenter_id()}">
                             <input type="submit" value="EDIT" class="btn btn-primary btn-sm text-white">
                         </form>
-                        <form th:action="'/deleteCenter/'+${center.getCenter_id()}" method="post" class="d-inline-block">
+                        <form th:if="${user.getRole().getId() == 1}" th:action="'/deleteCenter/'+${center.getCenter_id()}" method="post" class="d-inline-block">
                             <input type="submit" value="DELETE" class="btn btn-primary btn-sm text-white">
                         </form>
                     </div>
-                    <form action="/createCenter" method="post" class="d-inline-block">
+                    <form th:if="${user.getRole().getId() == 1}" action="/createCenter" method="post" class="d-inline-block">
                         <input type="submit" value="Create a new Center" class="btn btn-primary btn-sm text-white">
                     </form>
                 </div>
