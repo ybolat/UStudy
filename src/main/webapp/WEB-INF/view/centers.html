@@ -44,7 +44,7 @@
 
 <div class="page-body-wrapper">
     <section class="request_admin">
-        <center><h2>Edit Request</h2></center>
+        <center><h2>Centers</h2></center>
         <div class="container p-3 my-3 border border-primary rounded ">
             <div class="row">
                 <div class="col-sm-3">
@@ -62,6 +62,7 @@
                         <form th:if="${user.getRole().getId() == 1}" th:action="'/deleteCenter/'+${center.getCenter_id()}" method="post" class="d-inline-block">
                             <input type="submit" value="DELETE" class="btn btn-primary btn-sm text-white">
                         </form>
+                        <hr>
                     </div>
                     <form th:if="${user.getRole().getId() == 1}" action="/createCenter" method="post" class="d-inline-block">
                         <input type="submit" value="Create a new Center" class="btn btn-primary btn-sm text-white">

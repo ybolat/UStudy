@@ -1,10 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset='utf-8' />
+
+    <title>
+        FullCalendar
+    </title>
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        #external-events {
+            position: fixed;
+            z-index: 2;
+            top: 20px;
+            left: 20px;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            background: #eee;
+        }
+
+        .demo-topbar + #external-events { /* will get stripped out */
+            top: 60px;
+        }
+
+        #external-events .fc-event {
+            cursor: move;
+            margin: 3px 0;
+        }
+
+        #calendar-container {
+            position: relative;
+            z-index: 1;
+            margin-left: 200px;
+        }
+
+        #calendar {
+            max-width: 1100px;
+            margin: 20px auto;
+        }
+
+    </style>
+    <link href='fullcalendar/lib/main.min.css' rel='stylesheet' />
+    <script src='fullcalendar/lib/main.min.js'></script>
+
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var Calendar = FullCalendar.Calendar;
+            var Draggable = FullCalendar.Draggable;
+
+            var containerEl = document.getElementById('external-events');
+            var calendarEl = document.getElementById('calendar');
+
+
+            // initialize the external events
+            // -----------------------------------------------------------------
+
+            new Draggable(containerEl, {
+                itemSelector: '.fc-event',
+                eventData: function(eventEl) {
+                    return {
+                        title: eventEl.innerText
+                    };
+                }
+            });
+
+            // initialize the calendar
+            // -----------------------------------------------------------------
+
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                timeZone: 'UTC',
+                themeSystem: 'bootstrap',
+                selectable: true,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                },
+                eventClick: function(info) {
+                    if (confirm('Are you sure you want to delete the event ' + info.event.title)) {
+                        info.event.remove()
+                    }
+                },
+                select: function(info) {
+                    alert('selected ' + info.startStr + ' to ' + info.endStr);
+                    let title = prompt('Please enter a new title for your event')
+                    let calendarApi = info.view.calendar
+
+                    calendarApi.unselect() // clear date selection
+
+                    if (title) {
+                        calendarApi.addEvent({
+                            title,
+                            start: info.startStr,
+                            end: info.endStr,
+                            allDay: info.allDay
+                        })
+                    }
+                },
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar
+                weekNumbers: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: 'https://fullcalendar.io/demo-events.json'
+            });
+
+            calendar.render();
+        });
+
+    </script>
+
 </head>
 <body>
-<iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FAlmaty&amp;src=eS5ib2xhdDE5MTNAZ21haWwuY29t&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=cnUua3ojaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%23039BE5&amp;color=%2333B679&amp;color=%230B8043" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<div id='external-events'>
+    <p>
+        <strong>All Centers</strong>
+    </p>
+
+    <div style="margin-top: 3px;margin-bottom: 3px;">
+        <button class="fc-today-button btn btn-primary">My Center 1</button>
+    </div>
+    <div style="margin-top: 3px;margin-bottom: 3px;">
+        <button class="fc-today-button btn btn-primary">My Center 2</button>
+    </div>
+    <div style="margin-top: 3px;margin-bottom: 3px;">
+        <button class="fc-today-button btn btn-primary">My Center 3</button>
+    </div>
+    <div style="margin-top: 3px;margin-bottom: 3px;">
+        <button class="fc-today-button btn btn-primary">My Center 4</button>
+    </div>
+    <div style="margin-top: 3px;margin-bottom: 3px;">
+        <button class="fc-today-button btn btn-primary">My Center 5</button>
+    </div>
+    <br>
+</div>
+
+
+
+<div id='calendar-container'>
+    <div id='calendar'></div>
+</div>
 </body>
+
 </html>

@@ -55,6 +55,7 @@ public class SpringConfig implements WebMvcConfigurer
         registry.addResourceHandler("/sketch/**").addResourceLocations("/resources/sketch/");
         registry.addResourceHandler("/vendors/**").addResourceLocations("/resources/vendors/");
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
+        registry.addResourceHandler("/fullcalendar/**").addResourceLocations("/resources/fullcalendar/");
     }
 
     @Bean
