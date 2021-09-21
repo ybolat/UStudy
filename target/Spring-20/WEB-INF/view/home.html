@@ -45,13 +45,13 @@
                     <a class="nav-link btn btn-success" href="/requestsOfStatus">All Requests</a>
                 </li>
                 <li th:if="${user != null}" class="nav-item">
-                    <a class="nav-link btn btn-success" href="/logout">Logout</a>
-                </li>
-                <li th:if="${user != null}" class="nav-item">
                     <a class="nav-link btn btn-success" href="/createRequest">Apply request</a>
                 </li>
                 <li th:if="${user != null && user.getRole().getId() == 1}" class="nav-item">
                     <a class="nav-link btn btn-success" href="/getAllExams">Calendar</a>
+                </li>
+                <li th:if="${user != null}" class="nav-item">
+                    <a class="nav-link btn btn-success" href="/logout">Logout</a>
                 </li>
             </ul>
         </div>
